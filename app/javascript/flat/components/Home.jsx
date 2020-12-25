@@ -1,0 +1,127 @@
+import React, { useState, useEffect } from 'react';
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+import { useHistory } from 'react-router-dom';
+
+import './styles/Home.scss';
+
+import Flat from './Flat';
+import FlatMarker from './FlatMarker';
+
+const Home = () => {
+  const [flats, setFlats] = useState();
+  const [selectedFlat, setSelectedFlat] = useState(null);
+  const [center] = useState([2.3522, 48.8566]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(" disabled");
+  const [border, setBorder] = useState("");
+
+  const Map = ReactMapboxGl({ accessToken: "pk.eyJ1IjoibHVsdTkyMjcwIiwiYSI6ImNraXN6dnU1azA4amMycW11YTFtZjJzczgifQ.HZ5XIlT_pmdzbIQd3QWUjw" });
+  const history = useHistory();
+
+  useEffect(() => {
+    fetchFlats();
+
+  }, []);
+
+  const fetchFlats = async () => {
+    const INDEX_URL = "/api/v1/flats";
+    const fetchFlats = await fetch(INDEX_URL)
+    const flats = await fetchFlats.json();
+    setFlats(flats);
+  }
+
+  const deleteFlat = async () => {
+    const flat = flats.find(flat => flat === selectedFlat) || null;
+
+    const token = document.querySelector('[name=csrf-token]').content
+    const DELETE_URL = `/api/v1/flats/${flat.id}`;
+
+    const options = {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRF-TOKEN": token
+        },
+      method: 'DELETE',
+      credentials: "same-origin",
+      body: JSON.stringify(flat)
+    }
+    await fetch(DELETE_URL, options);
+    setFlats(flats.filter(flat => flat !== selectedFlat));
+  }
+
+  const handleSelect = (flatId) => {
+    const flat = flats.find(flat => flat.id === flatId);
+    setButtonDisabled("");
+    setSelectedFlat(flat);
+    flat.className = setBorder("border");
+  }
+
+  const filteredFlats = () => flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
+
+  return flats ? (
+    <div className="home">
+      <div className="main">
+        <div className="header">
+          <input className="form-control w-25" type="text" placeholder="Search" aria-label="Search" onChange={event => setSearchTerm(event.target.value)}/>
+          <div className="d-flex justify-content-end w-75">
+            <button 
+              type="button" 
+              className={"btn btn-secondary rounded" + buttonDisabled}
+              onClick={() => history.push("/flats/new")}
+              >Update
+            </button>
+            <button 
+              type="button" 
+              className={"btn btn-danger rounded" + buttonDisabled}
+              onClick={deleteFlat}
+              >Delete
+            </button>
+            <button 
+              type="button" 
+              className="btn btn-success mr-0 rounded"
+              onClick={() => history.push("/flats/new")}
+              >Add
+            </button>
+          </div>
+        </div>
+        <div className="flats">
+          {filteredFlats().map((flat) => {
+            return (
+              <Flat
+                key={flat.id}
+                id={flat.id}
+                onClick={handleSelect}
+                price={flat.price} 
+                title={flat.name}
+                selected={flat === selectedFlat}
+                imgUrl={flat.imageUrl || flat.image_url} />
+            );
+          })}
+        </div>
+      </div>
+      <div className="map">
+        <Map
+          zoom={[14]}
+          center={center}
+          containerStyle={{ height: '100vh', width: '100%' }}
+          style="mapbox://styles/mapbox/streets-v11">
+            {filteredFlats().map((flat) => {
+              return(
+                <Marker key={flat.id} coordinates={[flat.lng, flat.lat]} anchor="bottom">
+                  <FlatMarker price={flat.price} selected={flat === selectedFlat} />
+                </Marker>
+              )
+            })}
+        </Map>
+      </div>
+    </div>
+  ) : (
+    <div>Loading...</div>
+  );
+}
+
+export default Home;
