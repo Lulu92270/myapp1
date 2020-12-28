@@ -25,7 +25,6 @@
   "version": "0.1.0",
   "devDependencies": {
     "babel-loader": "^8.2.2",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "webpack-bundle-analyzer": "^4.3.0",
     "webpack-dev-server": "^3.11.0",
     "worker-loader": "^3.0.7"
