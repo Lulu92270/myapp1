@@ -9,6 +9,10 @@ import './styles/Home.scss';
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
 
+import BaseMap from './MapboxExample';
+
+
+
 const Home = () => {
   useEffect(() => {
     fetchFlats();
@@ -21,6 +25,7 @@ const Home = () => {
   const [buttonDisabled, setButtonDisabled] = useState(" disabled");
   const [border, setBorder] = useState("");
 
+  ReactMapboxGl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
   const Map = ReactMapboxGl({ accessToken: "pk.eyJ1IjoibHVsdTkyMjcwIiwiYSI6ImNraXN6dnU1azA4amMycW11YTFtZjJzczgifQ.HZ5XIlT_pmdzbIQd3QWUjw" });
   const history = useHistory();
 
@@ -71,7 +76,6 @@ const Home = () => {
               type="button" 
               className={"btn btn-secondary rounded w-25" + buttonDisabled}
               onClick={() => history.push(`/flats/update/${selectedFlat.id}`)}
-              // style={{'font-size': '1vw'}}
               >Update
             </button>
             <button 
@@ -104,7 +108,8 @@ const Home = () => {
         </div>
       </div>
       <div className="map">
-        <Map
+      <BaseMap />
+        {/* <Map
           zoom={[14]}
           center={center}
           containerStyle={{ height: '100vh', width: '100%' }}
@@ -116,7 +121,7 @@ const Home = () => {
                 </Marker>
               )
             })}
-        </Map>
+        </Map> */}
       </div>
     </div>
   ) : (
