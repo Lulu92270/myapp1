@@ -10,6 +10,10 @@ import Flat from './Flat';
 import FlatMarker from './FlatMarker';
 
 const Home = () => {
+  useEffect(() => {
+    fetchFlats();
+  }, []);
+
   const [flats, setFlats] = useState();
   const [selectedFlat, setSelectedFlat] = useState(null);
   const [center] = useState([2.3522, 48.8566]);
@@ -19,11 +23,6 @@ const Home = () => {
 
   const Map = ReactMapboxGl({ accessToken: "pk.eyJ1IjoibHVsdTkyMjcwIiwiYSI6ImNraXN6dnU1azA4amMycW11YTFtZjJzczgifQ.HZ5XIlT_pmdzbIQd3QWUjw" });
   const history = useHistory();
-
-  useEffect(() => {
-    fetchFlats();
-
-  }, []);
 
   const fetchFlats = async () => {
     const INDEX_URL = "/api/v1/flats";
@@ -57,7 +56,7 @@ const Home = () => {
     const flat = flats.find(flat => flat.id === flatId);
     setButtonDisabled("");
     setSelectedFlat(flat);
-    flat.className = setBorder("border");
+    flat.className = "border"// setBorder("border");
   }
 
   const filteredFlats = () => flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
@@ -70,19 +69,20 @@ const Home = () => {
           <div className="d-flex justify-content-end w-75">
             <button 
               type="button" 
-              className={"btn btn-secondary rounded" + buttonDisabled}
-              onClick={() => history.push("/flats/new")}
+              className={"btn btn-secondary rounded w-25" + buttonDisabled}
+              onClick={() => history.push(`/flats/update/${selectedFlat.id}`)}
+              // style={{'font-size': '1vw'}}
               >Update
             </button>
             <button 
               type="button" 
-              className={"btn btn-danger rounded" + buttonDisabled}
+              className={"btn btn-danger rounded w-25" + buttonDisabled}
               onClick={deleteFlat}
               >Delete
             </button>
             <button 
               type="button" 
-              className="btn btn-success mr-0 rounded"
+              className="btn btn-success mr-0 rounded w-25"
               onClick={() => history.push("/flats/new")}
               >Add
             </button>

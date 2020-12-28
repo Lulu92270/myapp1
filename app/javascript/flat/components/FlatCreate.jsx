@@ -35,8 +35,8 @@ const FlatCreate = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form">
-          <h2 className="pb-4">My New Flat</h2>
-          <label>My new Flat:</label>
+          <h2 className="pb-4">My New Location</h2>
+          <label>My new Place:</label>
           <input type="text" name="name" ref={register({required: true, minLength: 8})} defaultValue={faker.company.bs()} />
           {errors.flat && <p>8 Characters min</p>}
           <label>Price:</label>

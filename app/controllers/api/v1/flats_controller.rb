@@ -10,6 +10,12 @@ class Api::V1::FlatsController < ActionController::Base
     render json: @flat
   end
 
+  def update
+    @flat = Flat.find(params[:id])
+    @flat.update(flat_params)
+    render json: @flat
+  end
+
   def create
     @flat = Flat.new(flat_params)
     
@@ -25,7 +31,6 @@ class Api::V1::FlatsController < ActionController::Base
     @flat.destroy
 
     render json: @flat
-    # redirect_to pages_path, alert: 'item deleted!'
   end
 
   private
