@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2020_12_21_220327) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "flats", force: :cascade do |t|
     t.string "name", null: false
     t.string "image_url"
