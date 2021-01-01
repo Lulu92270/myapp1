@@ -31,7 +31,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'font-awesome-sass'
 gem 'devise'
-gem 'mapbox-gl-rails'
+
 group :development, :test do
   gem 'faker'
   gem 'pry-rails'
