@@ -31,9 +31,10 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'font-awesome-sass'
 gem 'devise'
+gem 'faker'
 
 group :development, :test do
-  gem 'faker'
+
   gem 'pry-rails'
   gem 'dotenv-rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
