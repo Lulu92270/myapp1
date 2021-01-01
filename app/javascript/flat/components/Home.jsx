@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
-import ReactMapGL from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { useHistory } from 'react-router-dom';
@@ -20,17 +19,8 @@ const Home = () => {
   const [center, setCenter] = useState([2.3522, 48.8566]);
   const [searchTerm, setSearchTerm] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(" disabled");
-  const [border, setBorder] = useState("");
 
   const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
-  const [viewport, setViewport] = useState({
-    latitude: 45.4211,
-    longitude: -75.6903,
-    width: "100%",
-    height: "100vh",
-    zoom: 10
-  });
-
   const history = useHistory();
 
   const fetchFlats = async () => {
@@ -65,13 +55,12 @@ const Home = () => {
     setFlats(flats.filter(flat => flat !== selectedFlat));
   }
 
-  // const handleSelect = (flatId) => {
-  //   const flat = flats.find(flat => flat.id === flatId);
-  //   flat.className = "border"// setBorder("border");
-  //   setButtonDisabled("");
-  //   setSelectedFlat(flat);
-  //   setCenter([flat.lng, flat.lat]);
-  // }
+  const handleSelect = (flatId) => {
+    const flat = flats.find(flat => flat.id === flatId);
+    setButtonDisabled("");
+    setSelectedFlat(flat);
+    setCenter([flat.lng, flat.lat]);
+  }
 
   const filteredFlats =  flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
   console.log(flats)
@@ -107,27 +96,21 @@ const Home = () => {
               <Flat
                 key={flat.id}
                 id={flat.id}
-                onClick={() => {
-                  setSelectedFlat(flat)
-                  setCenter([flat.lng, flat.lat])
-                }}
+                onSelect={handleSelect}
                 price={flat.price} 
                 title={flat.name}
-                // selected={flat === selectedFlat}
+                selected={flat === selectedFlat}
                 imgUrl={flat.imageUrl || flat.image_url} />
             );
           })}
         </div>
       </div>
       <div className="map">
-      {/* transition={{ duration: 5000, delay: 5000 }} */}
         <Map
-          zoom={[0]}
+          zoom={[14]}
           center={center}
           containerStyle={{ height: '100vh', width: '100%' }}
-          style="mapbox://styles/mapbox/streets-v11"
-          mapboxApiAccessToken ={process.env.REACT_APP_MAPBOX_TOKEN}
-          >
+          style="mapbox://styles/mapbox/streets-v8">
             {filteredFlats.map((flat) => {
               return(
                 <Marker key={flat.id} coordinates={[flat.lng, flat.lat]} anchor="bottom">
