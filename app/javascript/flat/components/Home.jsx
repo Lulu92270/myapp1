@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
+import ReactMapGL from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { useHistory } from 'react-router-dom';
@@ -9,30 +10,37 @@ import './styles/Home.scss';
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
 
-import BaseMap from './MapboxExample';
-
-
-
 const Home = () => {
   useEffect(() => {
     fetchFlats();
   }, []);
 
-  const [flats, setFlats] = useState();
+  const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
-  const [center] = useState([2.3522, 48.8566]);
+  const [center, setCenter] = useState([2.3522, 48.8566]);
   const [searchTerm, setSearchTerm] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(" disabled");
   const [border, setBorder] = useState("");
 
-  ReactMapboxGl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
-  const Map = ReactMapboxGl({ accessToken: "pk.eyJ1IjoibHVsdTkyMjcwIiwiYSI6ImNraXN6dnU1azA4amMycW11YTFtZjJzczgifQ.HZ5XIlT_pmdzbIQd3QWUjw" });
+  const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
+  const [viewport, setViewport] = useState({
+    latitude: 45.4211,
+    longitude: -75.6903,
+    width: "100%",
+    height: "100vh",
+    zoom: 10
+  });
+
   const history = useHistory();
 
   const fetchFlats = async () => {
     const INDEX_URL = "/api/v1/flats";
     const fetchFlats = await fetch(INDEX_URL)
     const flats = await fetchFlats.json();
+    // flats == flats.map(flat => { 
+    //   flat.lat = Number(flat.lat)
+    //   flat.lng = Number(flat.lng)
+    //  })
     setFlats(flats);
   }
 
@@ -57,15 +65,16 @@ const Home = () => {
     setFlats(flats.filter(flat => flat !== selectedFlat));
   }
 
-  const handleSelect = (flatId) => {
-    const flat = flats.find(flat => flat.id === flatId);
-    setButtonDisabled("");
-    setSelectedFlat(flat);
-    flat.className = "border"// setBorder("border");
-  }
+  // const handleSelect = (flatId) => {
+  //   const flat = flats.find(flat => flat.id === flatId);
+  //   flat.className = "border"// setBorder("border");
+  //   setButtonDisabled("");
+  //   setSelectedFlat(flat);
+  //   setCenter([flat.lng, flat.lat]);
+  // }
 
-  const filteredFlats = () => flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
-
+  const filteredFlats =  flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
+  console.log(flats)
   return flats ? (
     <div className="home">
       <div className="main">
@@ -93,35 +102,40 @@ const Home = () => {
           </div>
         </div>
         <div className="flats">
-          {filteredFlats().map((flat) => {
+          {filteredFlats.map((flat) => {
             return (
               <Flat
                 key={flat.id}
                 id={flat.id}
-                onClick={handleSelect}
+                onClick={() => {
+                  setSelectedFlat(flat)
+                  setCenter([flat.lng, flat.lat])
+                }}
                 price={flat.price} 
                 title={flat.name}
-                selected={flat === selectedFlat}
+                // selected={flat === selectedFlat}
                 imgUrl={flat.imageUrl || flat.image_url} />
             );
           })}
         </div>
       </div>
       <div className="map">
-      <BaseMap />
-        {/* <Map
-          zoom={[14]}
+      {/* transition={{ duration: 5000, delay: 5000 }} */}
+        <Map
+          zoom={[0]}
           center={center}
           containerStyle={{ height: '100vh', width: '100%' }}
-          style="mapbox://styles/mapbox/streets-v11">
-            {filteredFlats().map((flat) => {
+          style="mapbox://styles/mapbox/streets-v11"
+          mapboxApiAccessToken ={process.env.REACT_APP_MAPBOX_TOKEN}
+          >
+            {filteredFlats.map((flat) => {
               return(
                 <Marker key={flat.id} coordinates={[flat.lng, flat.lat]} anchor="bottom">
                   <FlatMarker price={flat.price} selected={flat === selectedFlat} />
                 </Marker>
-              )
+              );
             })}
-        </Map> */}
+        </Map>
       </div>
     </div>
   ) : (

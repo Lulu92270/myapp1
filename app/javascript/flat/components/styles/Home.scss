@@ -23,6 +23,9 @@
     height: 100vh;
     top: 0;
     position: sticky;
+    box-sizing: content-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .flats {
     display: flex;
