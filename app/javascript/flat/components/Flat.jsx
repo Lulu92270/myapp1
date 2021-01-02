@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-
+import { capitalize } from './functions/Capitalize';
 import './styles/Flat.scss';
 
 const Flat = ({imgUrl, title, price, onSelect, id, selected}) => {
@@ -14,7 +14,7 @@ const Flat = ({imgUrl, title, price, onSelect, id, selected}) => {
         <img src={imgUrl} className="flat" alt="Flat" />
       </div>
       <div className="flat-title" onClick={() => history.push(showPath)}>
-        <strong>{price} EUR</strong> - {title}
+        <strong>{price} EUR</strong> - {capitalize(title)}
       </div>
     </div>
   );
