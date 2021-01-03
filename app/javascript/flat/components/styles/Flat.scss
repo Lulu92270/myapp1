@@ -1,19 +1,15 @@
 .flat-content {
   flex-basis: calc(50% - 20px);
   margin: 10px;
-  border-radius: 10px 10px 10px 10px;
   box-shadow: 0 0 10px 0 rgba(0,0,0,.2);
   border: 1px solid grey;
   cursor: pointer;
   transition: 0.3s;
-
   &:hover {
-    border: 1px solid  pink;
-    border-radius: 10px 10px 10px 10px;
     transform: translate(0, -10px);
   }
   &.selected {
-    border: 1px solid red;
+    border: 1px solid rgba(255, 166, 43, 1);
     transform: translate(0, -10px);
   }
 }
@@ -27,15 +23,20 @@
   width: 100%;
   height: 15vw;
   object-fit: cover;
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 3px 3px 0px 0px;
 }
 .flat-title {
   padding: 5px;
-  flex-grow: 1;
+  height: calc(100% - 15vw);
+  display:flex;
+  border-radius: 0px 0px 3px 3px;
+  p {
+    margin:auto;
+  }
   &:hover {
     color: white;
-    background: red;
-    border-radius: 0px 0px 10px 10px;
+    background:rgba(255, 166, 43, 0.8);
+    text-shadow: 1px 1px 0px rgb(161, 161, 161);
   }
 }
 .demoWrapper {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactMapboxGl, { Marker, Popup } from 'react-mapbox-gl';
+import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { useHistory } from 'react-router-dom';
@@ -8,6 +8,7 @@ import './styles/Home.scss';
 
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
+
 const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
 
 const Home = () => {
@@ -58,10 +59,6 @@ const Home = () => {
     setCenter([flat.lng, flat.lat]);
   }
 
-  const handleSelectMarker = (flatId) => {
-    const flat = flats.find(flat => flat.id === flatId);
-  }
-
   const filteredFlats =  flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
 
   return flats ? (
@@ -101,7 +98,7 @@ const Home = () => {
               <Flat
                 key={flat.id}
                 id={flat.id}
-                onSelect={handleSelect}
+                onSelect={() => handleSelect(flat.id)}
                 price={flat.price} 
                 title={flat.name}
                 selected={flat === selectedFlat}
@@ -112,21 +109,19 @@ const Home = () => {
       </div>
       <div className="map">
         <Map
-          zoom={[0]}
+          zoom={[10]}
           center={center}
           containerStyle={{ height: '100vh', width: '100%' }}
           style="mapbox://styles/mapbox/streets-v11"
-          animationOptions={{ duration: 4000 }}>
+          animationOptions={{ duration: 4000 }}
+          className="rounded">
             {filteredFlats.map((flat) => {
               return(
-                <Marker key={flat.id} coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => setSelectedFlat(flat)}>
+                <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => handleSelect(flat.id)}>
                   <FlatMarker price={flat.price} selected={flat === selectedFlat} />
                 </Marker>
               );
             })}
-            {selectedFlat ? (
-              <FlatMarker selected={true} />
-            ) : null}
         </Map>
       </div>
     </div>

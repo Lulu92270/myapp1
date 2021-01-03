@@ -5,6 +5,7 @@ import Home from './components/Home';
 import FlatCreate from './components/FlatCreate';
 import FlatShow from './components/FlatShow';
 import FlatUpdate from './components/FlatUpdate';
+import Footer from './components/Footer';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
@@ -24,6 +25,7 @@ ReactDOM.render(
         <Route path="/flats/update/:id" component={FlatUpdate} />
       </Switch>
     </Router>
+    <Footer />
   </React.StrictMode>,
   root
 );

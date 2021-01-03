@@ -13,7 +13,6 @@
     padding: 10px 0;
   }
   .main {
-    margin-right: 10px;
     display: flex;
     flex-basis: 60%;
     flex-direction: column;
@@ -24,7 +23,7 @@
     top: 0;
     position: sticky;
     box-sizing: content-box !important;
-    margin: 0 !important;
+    margin: 10px !important;
     padding: 0 !important;
   }
   .flats {
@@ -39,6 +38,9 @@
     .form-control{
       font-size: 1.25vw;
     }
+  }
+  .my-marker {
+    cursor: pointer;
   }
 }
  
