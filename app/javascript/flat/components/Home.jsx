@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
+import ReactMapboxGl, { Marker, Popup } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { useHistory } from 'react-router-dom';
@@ -58,6 +58,10 @@ const Home = () => {
     setCenter([flat.lng, flat.lat]);
   }
 
+  const handleSelectMarker = (flatId) => {
+    const flat = flats.find(flat => flat.id === flatId);
+  }
+
   const filteredFlats =  flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
 
   return flats ? (
@@ -108,18 +112,21 @@ const Home = () => {
       </div>
       <div className="map">
         <Map
-          zoom={[14]}
+          zoom={[0]}
           center={center}
           containerStyle={{ height: '100vh', width: '100%' }}
           style="mapbox://styles/mapbox/streets-v11"
-          animationOptions={{ duration: 10000 }}>
+          animationOptions={{ duration: 4000 }}>
             {filteredFlats.map((flat) => {
               return(
-                <Marker key={flat.id} coordinates={[flat.lng, flat.lat]} anchor="bottom">
+                <Marker key={flat.id} coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => setSelectedFlat(flat)}>
                   <FlatMarker price={flat.price} selected={flat === selectedFlat} />
                 </Marker>
               );
             })}
+            {selectedFlat ? (
+              <FlatMarker selected={true} />
+            ) : null}
         </Map>
       </div>
     </div>

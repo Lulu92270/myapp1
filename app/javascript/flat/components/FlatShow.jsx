@@ -21,7 +21,7 @@ const FlatShow = ({ match }) => {
   }, []);
 
   const [flat, setFlat] = useState({});
-  const [center, setCenter] = useState([2.3522, 48.8566]);
+  const [center, setCenter] = useState([-9.142685, 38.736946]);
   const history = useHistory();
   
   const fetchFlat = async () => {
@@ -40,7 +40,7 @@ const FlatShow = ({ match }) => {
           <Card.Text>
             {faker.commerce.productDescription()}
           </Card.Text>
-          <Button variant="success" className="ml-0" onClick={() => history.push("/")}>Back</Button>
+          <Button variant="success" className="ml-0 rounded" onClick={() => history.push("/")}>Back</Button>
         </Card.Body>
       </Card>
       <div className="map">
