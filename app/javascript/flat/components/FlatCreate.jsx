@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import faker from 'faker';
 
+import Button from 'react-bootstrap/Button';
 import './styles/FlatCreate.scss';
 
 import { useHistory } from 'react-router-dom';
@@ -51,15 +52,12 @@ const FlatCreate = () => {
           <label>Flat URL:</label>
           <input type="text" name="image_url" ref={register} defaultValue={`https://source.unsplash.com/featured/1600x900/?{${faker.random.word()}`}/> 
 
-          <input type="submit" value="Submit" />
+          <div className="click-area">
+            <Button variant="success" className="ml-0 mt-2 mb-2 rounded" onClick={() => history.push("/")}>Back</Button>
+            <input type="submit" value="Submit" className="btn btn-success"/>
+          </div>
         </div>
       </form>
-        <button 
-        type="button" 
-        className="btn btn-success"
-        onClick={() => history.push("/")}
-        >Back
-        </button>
     </div>
   );
 }

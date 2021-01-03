@@ -68,7 +68,12 @@ const Home = () => {
     <div className="home">
       <div className="main">
         <div className="header">
-          <input className="form-control w-25" type="text" placeholder="Search" aria-label="Search" onChange={event => setSearchTerm(event.target.value)}/>
+          <input 
+            className="form-control w-25 pt-2 pb-2"
+            type="text"
+            placeholder="Search"
+            aria-label="Search"
+            onChange={event => setSearchTerm(event.target.value)}/>
           <div className="d-flex justify-content-end w-75">
             <button 
               type="button" 
