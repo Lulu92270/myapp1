@@ -8,6 +8,7 @@ import './styles/Home.scss';
 
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
+const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
 
 const Home = () => {
   useEffect(() => {
@@ -16,21 +17,16 @@ const Home = () => {
 
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
-  const [center, setCenter] = useState([2.3522, 48.8566]);
+  const [center, setCenter] = useState([-9.142685, 38.736946]);
   const [searchTerm, setSearchTerm] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(" disabled");
 
-  const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
   const history = useHistory();
 
   const fetchFlats = async () => {
     const INDEX_URL = "/api/v1/flats";
     const fetchFlats = await fetch(INDEX_URL)
     const flats = await fetchFlats.json();
-    // flats == flats.map(flat => { 
-    //   flat.lat = Number(flat.lat)
-    //   flat.lng = Number(flat.lng)
-    //  })
     setFlats(flats);
   }
 
@@ -63,7 +59,7 @@ const Home = () => {
   }
 
   const filteredFlats =  flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
-  console.log(flats)
+
   return flats ? (
     <div className="home">
       <div className="main">
@@ -91,7 +87,7 @@ const Home = () => {
               type="button" 
               className="btn btn-success mr-0 rounded w-25"
               onClick={() => history.push("/flats/new")}
-              >Add
+              >Create
             </button>
           </div>
         </div>
@@ -115,7 +111,8 @@ const Home = () => {
           zoom={[14]}
           center={center}
           containerStyle={{ height: '100vh', width: '100%' }}
-          style="mapbox://styles/mapbox/streets-v8">
+          style="mapbox://styles/mapbox/streets-v11"
+          animationOptions={{ duration: 10000 }}>
             {filteredFlats.map((flat) => {
               return(
                 <Marker key={flat.id} coordinates={[flat.lng, flat.lat]} anchor="bottom">

@@ -28,8 +28,6 @@ const FlatCreate = () => {
     }
     await fetch(CREATE_URL, options);
     history.push("/");
-    // .then(response => response.json())
-    // .then(data => this.setState({ postId: data.id }));
   }
 
   return (

@@ -30,6 +30,7 @@
 }
 .flat-title {
   padding: 5px;
+  flex-grow: 1;
   &:hover {
     color: white;
     background: red;
