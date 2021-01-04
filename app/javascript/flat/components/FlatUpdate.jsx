@@ -66,7 +66,7 @@ const FlatUpdate = ({ match }) => {
           
           <div className="click-area">
             <Button variant="success" className="ml-0 mt-2 mb-2 rounded" onClick={() => history.push("/")}>Back</Button>
-            <input type="submit" value="Submit" className="btn btn-success"/>
+            <input type="submit" value="Update" className="btn btn-success"/>
           </div>
         </div>
       </form>

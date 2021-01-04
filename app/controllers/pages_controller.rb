@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
   def home
-    @flats = Flat.order(name: :desc)
+    @flats = Flat.order(updated_at: :desc)
   end
 end

@@ -1,7 +1,7 @@
 class Api::V1::FlatsController < ActionController::Base
   def index
     # @ not required because we don't have a views ....html.erb
-    @flats = Flat.all
+    @flats = Flat.order(updated_at: :desc)
     render json: @flats
   end
 
