@@ -100,7 +100,7 @@ const Home = () => {
           <Row>
             {filteredFlats.map((flat) => {
               return (
-                <Col className="p-0" sm={12} md={6}>
+                <Col className="p-0" sm={12} xl={6}>
                   <Flat
                     key={flat.id}
                     id={flat.id}
