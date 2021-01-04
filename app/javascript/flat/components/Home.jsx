@@ -5,6 +5,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useHistory } from 'react-router-dom';
 
 import './styles/Home.scss';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
@@ -74,38 +77,44 @@ const Home = () => {
           <div className="d-flex justify-content-end w-75">
             <button 
               type="button" 
-              className={"btn btn-secondary rounded w-25" + buttonDisabled}
+              className={"btn btn-secondary mb-0 mt-0 rounded w-25" + buttonDisabled}
               onClick={() => history.push(`/flats/update/${selectedFlat.id}`)}
               >Update
             </button>
             <button 
               type="button" 
-              className={"btn btn-danger rounded w-25" + buttonDisabled}
+              className={"btn btn-danger mb-0 mt-0 rounded w-25" + buttonDisabled}
               onClick={deleteFlat}
               >Delete
             </button>
             <button 
               type="button" 
-              className="btn btn-success mr-0 rounded w-25"
+              className="btn btn-success mb-0 mt-0 mr-0 rounded w-25"
               onClick={() => history.push("/flats/new")}
               >Create
             </button>
           </div>
         </div>
-        <div className="flats">
-          {filteredFlats.map((flat) => {
-            return (
-              <Flat
-                key={flat.id}
-                id={flat.id}
-                onSelect={() => handleSelect(flat.id)}
-                price={flat.price} 
-                title={flat.name}
-                selected={flat === selectedFlat}
-                imgUrl={flat.imageUrl || flat.image_url} />
-            );
-          })}
-        </div>
+        {/* <div className="flats"> */}
+        <Container>
+          <Row>
+            {filteredFlats.map((flat) => {
+              return (
+                <Col className="p-0" xs={12} md={6}>
+                  <Flat
+                    key={flat.id}
+                    id={flat.id}
+                    onSelect={() => handleSelect(flat.id)}
+                    price={flat.price} 
+                    title={flat.name}
+                    selected={flat === selectedFlat}
+                    imgUrl={flat.imageUrl || flat.image_url} />
+                </Col>
+              );
+            })}
+          </Row>
+        </Container>
+        {/* </div> */}
       </div>
       <div className="map">
         <Map

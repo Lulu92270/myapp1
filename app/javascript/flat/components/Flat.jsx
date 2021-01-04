@@ -14,7 +14,7 @@ const Flat = ({imgUrl, title, price, onSelect, id, selected}) => {
         <img src={imgUrl} className="flat" alt="Flat" />
       </div>
       <div className="flat-title" onClick={() => history.push(showPath)}>
-        <p><strong>{price} EUR</strong> - {capitalize(title)}</p>
+        {`${price} EUR - ${capitalize(title)}`}
       </div>
     </div>
   );

@@ -31,9 +31,10 @@ html, body {
     height: 100vh;
     top: 0;
     position: sticky;
-    box-sizing: content-box !important;
-    margin: 10px !important;
-    padding: 0 !important;
+    box-sizing: content-box;
+    margin: 10px;
+    margin-left: 0;
+    padding: 0;
   }
   .flats {
     display: flex;
@@ -43,7 +44,8 @@ html, body {
   .header {
     display: flex;
     align-items: center;
-    margin: 10px;
+    margin: 10px 10px 0 10px;
+    padding-bottom: 5px;
     .form-control{
       font-size: 1.25vw;
     }
