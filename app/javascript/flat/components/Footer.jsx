@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container">
         <div className="row">
           <div className="col">
-            <h4>Front End</h4>
+            <h1>Front End</h1>
             <ul className="list-unstyled">
               <li>React</li>
               <li>Latest Hooks</li>
@@ -16,7 +16,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col">
-            <h4>Back End</h4>
+            <h1>Back End</h1>
             <ul className="list-unstyled">
               <li>Ruby on Rails</li>
               <li>MVC Framework</li>
