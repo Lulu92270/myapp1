@@ -1,5 +1,5 @@
-.flat-content {
-  // flex-basis: calc(50% - 20px);
+.flat {
+  flex-basis: calc(50% - 20px);
   margin: 10px;
   box-shadow: 0 0 10px 0 rgba(0,0,0,.2);
   border: 1px solid grey;
@@ -8,13 +8,18 @@
   height: 20vw;
   &:hover {
     transform: translate(0, -10px);
+    .flat-title {
+      color: white;
+      background:rgba(255, 166, 43, 0.8);
+      text-shadow: 1px 1px 0px rgb(161, 161, 161);
+    }
   }
   &.selected {
     border: 1px solid rgba(255, 166, 43, 1);
     transform: translate(0, -10px);
   }
 }
-.flat {
+.flat-image {
   &:hover {
     opacity: .9; 
   }
@@ -32,9 +37,19 @@
   align-items: center;
   text-align: center;
   height: calc(100% - 15vw);
-  &:hover {
-    color: white;
-    background:rgba(255, 166, 43, 0.8);
-    text-shadow: 1px 1px 0px rgb(161, 161, 161);
+  font-weight: bold;
+}
+
+@media (max-width: 1080px) {
+  .flat { 
+    flex-basis: 100%;
+    height: 35vw;
+  }
+  .flat-image {
+    height: 30vw;
+  }
+  .flat-title {
+    height: calc(100% - 30vw);
+    font-size: 2vw;
   }
 }

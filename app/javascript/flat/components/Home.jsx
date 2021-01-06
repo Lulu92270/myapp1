@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+import { capitalize } from './functions/Capitalize';
+
 import { fetchItems, fetchDelete } from './Fetches';
-
-import { useHistory } from 'react-router-dom';
-
-import './styles/Home.scss';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
+
+import './styles/Home.scss';
 
 const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
 
@@ -23,7 +20,6 @@ const Home = () => {
   const [center, setCenter] = useState([-9.142685, 38.736946]);
   const [searchTerm, setSearchTerm] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(" disabled");
-
   const history = useHistory();
 
   useEffect(() => {
@@ -73,24 +69,19 @@ const Home = () => {
             </button>
           </div>
         </div>
-        <Container>
-          <Row>
-            {filteredFlats.map((flat) => {
-              return (
-                <Col key={flat.id} className="p-0" sm={12} xl={6}>
-                  <Flat
-                    key={flat.id}
-                    id={flat.id}
-                    onSelect={() => handleSelect(flat.id)}
-                    price={flat.price} 
-                    title={flat.name}
-                    selected={flat === selectedFlat}
-                    imgUrl={flat.imageUrl || flat.image_url} />
-                </Col>
-              );
-            })}
-          </Row>
-        </Container>
+        <div className="flats">
+          {filteredFlats.map((flat) => {
+            return (
+              <Flat
+                key={flat.id}
+                id={flat.id}
+                onSelect={() => handleSelect(flat.id)}
+                title={`${flat.price} EUR - ${capitalize(flat.name)}`}
+                selected={flat === selectedFlat}
+                imgUrl={flat.imageUrl || flat.image_url} />
+            );
+          })}
+          </div>
       </div>
       <div className="map">
         <Map

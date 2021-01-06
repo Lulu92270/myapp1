@@ -6,7 +6,6 @@ html, body {
 
 .home {
   display: flex;
-  // display: block;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.25vw;
   a {
@@ -14,12 +13,11 @@ html, body {
     color: inherit;
   }
   button {
-    font-size: 1vw;
+    font-size: 1.5vw;
     padding: 10px 0;
   }
   .main {
     display: flex;
-    // display: block;
     flex-basis: 60%;
     flex-direction: column;
   }
@@ -31,18 +29,18 @@ html, body {
     box-sizing: content-box;
     margin: 10px 10px 10px 0;
   }
-  // .flats {
-  //   display: flex;
-  //   flex-wrap: wrap;
-  //   align-content: flex-start;
-  // }
+  .flats {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+  }
   .header {
     display: flex;
     align-items: center;
     margin: 10px 10px 0 10px;
     padding-bottom: 5px;
     .form-control{
-      font-size: 1.25vw;
+      font-size: 1.5vw;
     }
   }
   .my-marker {
