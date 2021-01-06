@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import faker from 'faker';
 
-// import Button from 'react-bootstrap/Button';
+import { fetchPost } from './Fetches';
 import './styles/FlatCreate.scss';
 
 import { useHistory } from 'react-router-dom';
@@ -10,23 +10,8 @@ import { useHistory } from 'react-router-dom';
 const FlatCreate = () => {
   const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
-
-  const onSubmit = async (flat) => {
-    const token = document.querySelector('[name=csrf-token]').content
-    const CREATE_URL = "/api/v1/flats";
-
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-        "X-CSRF-TOKEN": token
-        },
-      method: 'post',
-      credentials: "same-origin",
-      body: JSON.stringify(flat)
-    }
-    await fetch(CREATE_URL, options);
+  const onSubmit = (data) => {
+    fetchPost(data);
     history.push("/");
   }
 

@@ -5,38 +5,19 @@ import { useForm } from "react-hook-form";
 import Button from 'react-bootstrap/Button';
 import './styles/FlatUpdate.scss';
 
+import { fetchItem, fetchPatch } from './Fetches';
+
 const FlatUpdate = ({ match }) => {
   useEffect(() => {
-    fetchFlat();
+    fetchItem(setFlat, match.params.id);
   }, []);
   
   const [flat, setFlat] = useState({});
 
   const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
-  
-  const fetchFlat = async () => {
-    const fetchFlat = await fetch(`/api/v1/flats/${match.params.id}`)
-    const flat = await fetchFlat.json();
-    setFlat(flat);
-  }
-
-  const onSubmit = async (flat) => {
-    const token = document.querySelector('[name=csrf-token]').content
-    const UPDATE_URL = `/api/v1/flats/${match.params.id}`;
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-        "X-CSRF-TOKEN": token
-      },
-      method: 'PATCH',
-      credentials: "same-origin",
-      body: JSON.stringify(flat)
-    }
-    
-    await fetch(UPDATE_URL, options);
+  const onSubmit = (data) => {
+    fetchPatch(data, match.params.id);
     history.push("/");
   }
 

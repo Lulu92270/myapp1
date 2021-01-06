@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="col">
             <h1>Front End</h1>
             <ul className="list-unstyled">
-              <li>React</li>
+              <li>React Framework</li>
               <li>Latest Hooks</li>
               <li>No Class Components</li>
             </ul>

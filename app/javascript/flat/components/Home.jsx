@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+import { fetchItems, fetchDelete } from './Fetches';
+
 import { useHistory } from 'react-router-dom';
 
 import './styles/Home.scss';
@@ -15,9 +17,6 @@ import FlatMarker from './FlatMarker';
 const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
 
 const Home = () => {
-  useEffect(() => {
-    fetchFlats();
-  }, []);
 
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
@@ -27,33 +26,9 @@ const Home = () => {
 
   const history = useHistory();
 
-  const fetchFlats = async () => {
-    const INDEX_URL = "/api/v1/flats";
-    const fetchFlats = await fetch(INDEX_URL)
-    const flats = await fetchFlats.json();
-    setFlats(flats);
-  }
-
-  const deleteFlat = async () => {
-    const flat = flats.find(flat => flat === selectedFlat) || null;
-
-    const token = document.querySelector('[name=csrf-token]').content
-    const DELETE_URL = `/api/v1/flats/${flat.id}`;
-
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-        "X-CSRF-TOKEN": token
-        },
-      method: 'DELETE',
-      credentials: "same-origin",
-      body: JSON.stringify(flat)
-    }
-    await fetch(DELETE_URL, options);
-    setFlats(flats.filter(flat => flat !== selectedFlat));
-  }
+  useEffect(() => {
+    fetchItems(setFlats);
+  }, []);
 
   const handleSelect = (flatId) => {
     const flat = flats.find(flat => flat.id === flatId);
@@ -84,7 +59,10 @@ const Home = () => {
             <button 
               type="button" 
               className={"btn btn-danger mb-0 mt-0 rounded w-25" + buttonDisabled}
-              onClick={deleteFlat}
+              onClick={() => {
+                fetchDelete(selectedFlat, flats)
+                setFlats(flats.filter(flat => flat !== selectedFlat));
+              }}
               >Delete
             </button>
             <button 
@@ -95,12 +73,11 @@ const Home = () => {
             </button>
           </div>
         </div>
-        {/* <div className="flats"> */}
         <Container>
           <Row>
             {filteredFlats.map((flat) => {
               return (
-                <Col className="p-0" sm={12} xl={6}>
+                <Col key={flat.id} className="p-0" sm={12} xl={6}>
                   <Flat
                     key={flat.id}
                     id={flat.id}
@@ -114,7 +91,6 @@ const Home = () => {
             })}
           </Row>
         </Container>
-        {/* </div> */}
       </div>
       <div className="map">
         <Map

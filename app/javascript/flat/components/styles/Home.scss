@@ -4,13 +4,9 @@ html, body {
   height: 100%;
 }
 
-#root {
-  min-height: 100%;
-  display: grid;
-  grid-template-rows: 1fr auto;
-}
 .home {
   display: flex;
+  // display: block;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.25vw;
   a {
@@ -23,6 +19,7 @@ html, body {
   }
   .main {
     display: flex;
+    // display: block;
     flex-basis: 60%;
     flex-direction: column;
   }
@@ -32,15 +29,13 @@ html, body {
     top: 0;
     position: sticky;
     box-sizing: content-box;
-    margin: 10px;
-    margin-left: 0;
-    padding: 0;
+    margin: 10px 10px 10px 0;
   }
-  .flats {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-  }
+  // .flats {
+  //   display: flex;
+  //   flex-wrap: wrap;
+  //   align-content: flex-start;
+  // }
   .header {
     display: flex;
     align-items: center;
