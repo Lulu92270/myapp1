@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { capitalize } from './functions/Capitalize';
-
 import { fetchItems, fetchDelete } from './Fetches';
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
@@ -78,7 +78,8 @@ const Home = () => {
                 onSelect={() => handleSelect(flat.id)}
                 title={`${flat.price} EUR - ${capitalize(flat.name)}`}
                 selected={flat === selectedFlat}
-                imgUrl={flat.imageUrl || flat.image_url} />
+                imgUrl={flat.imageUrl || flat.image_url}>                
+              </Flat>
             );
           })}
           </div>

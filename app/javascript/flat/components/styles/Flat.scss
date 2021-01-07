@@ -23,13 +23,15 @@
   &:hover {
     opacity: .9; 
   }
-  object-position: top;
-  top: 0px;
   display: block;
-  width: 100%;
   height: 15vw;
-  object-fit: cover;
   border-radius: 3px 3px 0px 0px;
+  img {
+    object-position: top;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 .flat-title {
   display: flex;
