@@ -8,6 +8,7 @@ import faker from 'faker';
 
 import { capitalize } from './functions/Capitalize';
 import { useHistory } from 'react-router-dom';
+import { fetchItem } from './Fetches';
 
 import FlatMarker from './FlatMarker';
 import './styles/FlatShow.scss';
@@ -17,19 +18,12 @@ const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
 
 const FlatShow = ({ match }) => {
   useEffect(() => {
-    fetchFlat();
+    fetchItem(setFlat, match.params.id);
   }, []);
 
   const [flat, setFlat] = useState({});
-  const [center, setCenter] = useState([-9.142685, 38.736946]);
+  const location = flat != 'undefined' ? [-9.142685, 38.736946] : [flat.lng, flat.lat];
   const history = useHistory();
-  
-  const fetchFlat = async () => {
-    const fetchFlat = await fetch(`/api/v1/flats/${match.params.id}`)
-    const flat = await fetchFlat.json();
-    setFlat(flat);
-    setCenter([flat.lng, flat.lat]);
-  }
 
   return (
     <div className="flat-details">
@@ -46,11 +40,11 @@ const FlatShow = ({ match }) => {
       <div className="map">
         <Map
           zoom={[10]}
-          center={center}
+          center={location}
           containerStyle={{ height: '100vh', width: '100%' }}
           style="mapbox://styles/mapbox/streets-v11"
           animationOptions={{ duration: 10000 }}>
-          <Marker key={flat.id} coordinates={center} anchor="bottom">
+          <Marker key={flat.id} coordinates={location} anchor="bottom">
             <FlatMarker price={flat.price} selected={true} />
           </Marker>          
         </Map>

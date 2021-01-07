@@ -4,6 +4,7 @@ import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { capitalize } from './functions/Capitalize';
+import { delay } from './functions/Delay';
 
 import { fetchItems, fetchDelete } from './Fetches';
 import Flat from './Flat';
@@ -22,9 +23,8 @@ const Home = () => {
   const [buttonDisabled, setButtonDisabled] = useState(" disabled");
   const history = useHistory();
 
-  useEffect(() => {
-    fetchItems(setFlats);
-  }, []);
+  const [displayEl, setDisplayEl] = useState();
+  const [displayArray, setDisplayArray] = useState([]);
 
   const handleSelect = (flatId) => {
     const flat = flats.find(flat => flat.id === flatId);
@@ -33,31 +33,28 @@ const Home = () => {
     setCenter([flat.lng, flat.lat]);
   }
 
-  const filteredFlats =  flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
-
-  const [displayEl, setDisplayEl] = useState();
-  const [displayArray, setDisplayArray] = useState([]);
-
-  const delay = (ms) =>
-    new Promise((res) => {
-      setTimeout(() => {
-        res();
-      }, ms);
-    });
+  useEffect(() => {
+    fetchItems(setFlats)
+  }, []);
 
   useEffect(() => {
-    (async function () {
+    (async () => {
       for (let flat of flats) {
-        await delay(1000);
+        await delay(500);
         setDisplayEl(flat);
       }
       setDisplayEl(undefined);
     })();
+    return () => {
+      clearTimeout(delay);
+   }
   }, [flats]);
 
   useEffect(() => {
     displayEl && setDisplayArray((prev) => [...prev, displayEl]);
   }, [displayEl]);
+
+  const filteredFlats =  displayArray.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
 
   return flats ? (
     <div className="home">
@@ -93,16 +90,8 @@ const Home = () => {
             </button>
           </div>
         </div>
-{/* 
-        <div className="App">
-          <h1>Hello CodeSandbox</h1>
-          {displayArray.map((flat) => (
-            <div key={flat.id * 1000}>Number: {flat.id}</div>
-          ))}
-        </div> */}
-
         <div className="flats">
-          {displayArray.map((flat) => {
+          {filteredFlats.map((flat) => {
             return (
                 <Flat
                   key={flat.id}
@@ -118,7 +107,7 @@ const Home = () => {
       </div>
       <div className="map">
         <Map
-          zoom={[10]}
+          zoom={[15]}
           center={center}
           containerStyle={{ height: '100vh', width: '100%' }}
           style="mapbox://styles/mapbox/streets-v11"

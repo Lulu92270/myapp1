@@ -8,7 +8,7 @@ const Flat = ({imgUrl, title, onSelect, id, selected}) => {
   useEffect(() => {
     const interval = setInterval(() => {
       boolean = !boolean;
-      setSecond(boolean ? 'Click me!' : title);
+      setSecond(boolean ? 'Click here!' : title);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -23,7 +23,6 @@ const Flat = ({imgUrl, title, onSelect, id, selected}) => {
     config: { tension: 400, mass: 2, velocity: 5 }
   }))
 
-  // Updated value generator
   const updateHover = hovering => ({
       transform: `scale(${ hovering ? 1.1 : 1})`,
       boxShadow: `0px ${hovering ? '10px 20px' : '5px 15px'} 0px rgba(0, 0, 0, 0.30)`
