@@ -8,15 +8,15 @@
   height: 20vw;
   &:hover {
     transform: translate(0, -10px);
+  }
+  &.selected {
+    border: 1px solid rgba(255, 166, 43, 1);
+    transform: translate(0, -10px);
     .flat-title {
       color: white;
       background:rgba(255, 166, 43, 0.8);
       text-shadow: 1px 1px 0px rgb(161, 161, 161);
     }
-  }
-  &.selected {
-    border: 1px solid rgba(255, 166, 43, 1);
-    transform: translate(0, -10px);
   }
 }
 .flat-image {
