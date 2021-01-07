@@ -20,6 +20,7 @@ html, body {
     display: flex;
     flex-basis: 60%;
     flex-direction: column;
+    margin: 0 10px 0 10px;
   }
   .map {
     flex-grow: 1;
@@ -37,7 +38,7 @@ html, body {
   .header {
     display: flex;
     align-items: center;
-    margin: 10px 10px 0 10px;
+    margin: 10px 20px 0 20px;
     padding-bottom: 5px;
     .form-control{
       font-size: 1.5vw;

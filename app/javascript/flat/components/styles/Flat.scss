@@ -1,17 +1,12 @@
 .flat {
-  flex-basis: calc(50% - 20px);
-  margin: 10px;
+  flex-basis: calc(50% - 40px);
+  margin: 20px;
   box-shadow: 0 0 10px 0 rgba(0,0,0,.2);
   border: 1px solid grey;
   cursor: pointer;
-  transition: 0.3s;
   height: 20vw;
-  &:hover {
-    transform: translate(0, -10px);
-  }
   &.selected {
     border: 1px solid rgba(255, 166, 43, 1);
-    transform: translate(0, -10px);
     .flat-title {
       color: white;
       background:rgba(255, 166, 43, 0.8);

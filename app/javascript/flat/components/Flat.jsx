@@ -13,10 +13,20 @@ const Flat = ({imgUrl, title, onSelect, id, selected}) => {
     return () => clearInterval(interval);
   }, []);
 
-  const props = useSpring({
-    from: { opacity: 0, marginTop: -500 },
-    to: { opacity: 1, marginTop: 10 },
-    config: { delay: 1000, duration: 1000 }
+  const [props, set] = useSpring(() => ({
+    transform: 'scale(1)',
+    boxShadow: '0px 5px 15px 0px rgba(0, 0, 0, 0.30)',
+    from: { 
+        transform: 'scale(0.5)',
+        boxShadow: '0px 0px 0px 0px rgba(0, 0, 0, 0.30)'
+    },
+    config: { tension: 400, mass: 2, velocity: 5 }
+  }))
+
+  // Updated value generator
+  const updateHover = hovering => ({
+      transform: `scale(${ hovering ? 1.1 : 1})`,
+      boxShadow: `0px ${hovering ? '10px 20px' : '5px 15px'} 0px rgba(0, 0, 0, 0.30)`
   })
 
   let boolean = true;
@@ -26,7 +36,10 @@ const Flat = ({imgUrl, title, onSelect, id, selected}) => {
   const history = useHistory();
 
   return (
-    <animated.div className={'flat rounded' + classes} style={props} > 
+    <animated.div className={'flat rounded' + classes} style={props}
+      onMouseEnter={() => set(updateHover(true))}
+      onMouseLeave={() => set(updateHover(false))}
+    > 
       <div onClick={() => onSelect(id)} className="flat-image">
         <img src={imgUrl} alt="Flat" />
       </div>

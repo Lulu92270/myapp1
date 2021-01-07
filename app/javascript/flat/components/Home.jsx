@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { capitalize } from './functions/Capitalize';
+
 import { fetchItems, fetchDelete } from './Fetches';
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
@@ -34,6 +34,30 @@ const Home = () => {
   }
 
   const filteredFlats =  flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
+
+  const [displayEl, setDisplayEl] = useState();
+  const [displayArray, setDisplayArray] = useState([]);
+
+  const delay = (ms) =>
+    new Promise((res) => {
+      setTimeout(() => {
+        res();
+      }, ms);
+    });
+
+  useEffect(() => {
+    (async function () {
+      for (let flat of flats) {
+        await delay(1000);
+        setDisplayEl(flat);
+      }
+      setDisplayEl(undefined);
+    })();
+  }, [flats]);
+
+  useEffect(() => {
+    displayEl && setDisplayArray((prev) => [...prev, displayEl]);
+  }, [displayEl]);
 
   return flats ? (
     <div className="home">
@@ -69,17 +93,25 @@ const Home = () => {
             </button>
           </div>
         </div>
+{/* 
+        <div className="App">
+          <h1>Hello CodeSandbox</h1>
+          {displayArray.map((flat) => (
+            <div key={flat.id * 1000}>Number: {flat.id}</div>
+          ))}
+        </div> */}
+
         <div className="flats">
-          {filteredFlats.map((flat) => {
+          {displayArray.map((flat) => {
             return (
-              <Flat
-                key={flat.id}
-                id={flat.id}
-                onSelect={() => handleSelect(flat.id)}
-                title={`${flat.price} EUR - ${capitalize(flat.name)}`}
-                selected={flat === selectedFlat}
-                imgUrl={flat.imageUrl || flat.image_url}>                
-              </Flat>
+                <Flat
+                  key={flat.id}
+                  id={flat.id}
+                  onSelect={() => handleSelect(flat.id)}
+                  title={`${flat.price} EUR - ${capitalize(flat.name)}`}
+                  selected={flat === selectedFlat}
+                  imgUrl={flat.imageUrl || flat.image_url}>                
+                </Flat>
             );
           })}
           </div>
