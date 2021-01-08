@@ -35,7 +35,8 @@ const Flat = ({imgUrl, title, onSelect, id, selected}) => {
   const history = useHistory();
 
   return (
-    <animated.div className={'flat rounded' + classes} style={props}
+    <animated.div 
+      className={'flat rounded' + classes} style={props}
       onMouseEnter={() => set(updateHover(true))}
       onMouseLeave={() => set(updateHover(false))}
     > 

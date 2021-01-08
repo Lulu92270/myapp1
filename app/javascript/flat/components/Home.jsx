@@ -58,69 +58,68 @@ const Home = () => {
 
   return flats ? (
     <div className="home">
-      <div className="main">
-        <div className="header">
-          <input 
-            className="form-control w-25 pt-2 pb-2"
-            type="text"
-            placeholder="Search"
-            aria-label="Search"
-            onChange={event => setSearchTerm(event.target.value)}/>
-          <div className="d-flex justify-content-end w-75">
-            <button 
-              type="button" 
-              className={"btn btn-secondary mb-0 mt-0 rounded w-25" + buttonDisabled}
-              onClick={() => history.push(`/flats/update/${selectedFlat.id}`)}
-              >Update
-            </button>
-            <button 
-              type="button" 
-              className={"btn btn-danger mb-0 mt-0 rounded w-25" + buttonDisabled}
-              onClick={() => {
-                fetchDelete(selectedFlat, flats)
-                setFlats(flats.filter(flat => flat !== selectedFlat));
-              }}
-              >Delete
-            </button>
-            <button 
-              type="button" 
-              className="btn btn-success mb-0 mt-0 mr-0 rounded w-25"
-              onClick={() => history.push("/flats/new")}
-              >Create
-            </button>
-          </div>
+      <div className="header">
+        <input 
+          className="form-control search"
+          type="text"
+          placeholder="Search"
+          aria-label="Search"
+          onChange={event => setSearchTerm(event.target.value)}/>
+        <div className="buttons">
+          <button 
+            type="button"
+            className={"button-update" + buttonDisabled}
+            onClick={() => history.push(`/flats/update/${selectedFlat.id}`)}
+            >UPDATE
+          </button>
+          <button 
+            type="button" 
+            className={"button-delete" + buttonDisabled}
+            onClick={() => {
+              fetchDelete(selectedFlat, flats)
+              setFlats(flats.filter(flat => flat !== selectedFlat));
+            }}
+            >DELETE
+          </button>
+          <button 
+            type="button" 
+            className="button-create"
+            onClick={() => history.push("/flats/new")}
+            >CREATE
+          </button>
         </div>
+      </div>
+      <div className="content">
         <div className="flats">
           {filteredFlats.map((flat) => {
             return (
-                <Flat
-                  key={flat.id}
-                  id={flat.id}
-                  onSelect={() => handleSelect(flat.id)}
-                  title={`${flat.price} EUR - ${capitalize(flat.name)}`}
-                  selected={flat === selectedFlat}
-                  imgUrl={flat.imageUrl || flat.image_url}>                
-                </Flat>
+              <Flat
+                key={flat.id}
+                id={flat.id}
+                onSelect={() => handleSelect(flat.id)}
+                title={`${flat.price} EUR - ${capitalize(flat.name)}`}
+                selected={flat === selectedFlat}
+                imgUrl={flat.imageUrl || flat.image_url} />                
             );
           })}
-          </div>
-      </div>
-      <div className="map">
-        <Map
-          zoom={[15]}
-          center={center}
-          containerStyle={{ height: '100vh', width: '100%' }}
-          style="mapbox://styles/mapbox/streets-v11"
-          animationOptions={{ duration: 4000 }}
-          className="rounded">
-            {filteredFlats.map((flat) => {
-              return(
-                <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => handleSelect(flat.id)}>
-                  <FlatMarker price={flat.price} selected={flat === selectedFlat} />
-                </Marker>
-              );
-            })}
-        </Map>
+        </div>
+        <div className="map">
+          <Map
+            zoom={[15]}
+            center={center}
+            containerStyle={{ height: '100vh', width: '100%' }}
+            style="mapbox://styles/mapbox/streets-v11"
+            animationOptions={{ duration: 4000 }}
+            className="rounded">
+              {filteredFlats.map((flat) => {
+                return(
+                  <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => handleSelect(flat.id)}>
+                    <FlatMarker price={flat.price} selected={flat === selectedFlat} />
+                  </Marker>
+                );
+              })}
+          </Map>
+        </div>
       </div>
     </div>
   ) : (
