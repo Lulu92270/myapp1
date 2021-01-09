@@ -97,7 +97,7 @@ const Home = () => {
                 key={flat.id}
                 id={flat.id}
                 onSelect={() => handleSelect(flat.id)}
-                title={`${flat.price} EUR - ${capitalize(flat.name)}`}
+                title={`${flat.price} EUR - ${capitalize(flat.name)} ${flat.id}`}
                 selected={flat === selectedFlat}
                 imgUrl={flat.imageUrl || flat.image_url} />                
             );

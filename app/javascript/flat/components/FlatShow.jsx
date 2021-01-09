@@ -37,7 +37,7 @@ const FlatShow = ({ match }) => {
           <Button variant="success" className="ml-0 rounded" onClick={() => history.push("/")}>Back</Button>
         </Card.Body>
       </Card>
-      <div className="map">
+      <div className="map-show">
         <Map
           zoom={[10]}
           center={location}
