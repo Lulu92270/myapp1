@@ -15,24 +15,25 @@
   }
 }
 .flat-image {
+  height: 15vw;
+  border-radius: 3px 3px 0px 0px;
   &:hover {
     opacity: .9; 
   }
-  height: 15vw;
-  border-radius: 3px 3px 0px 0px;
   img {
     object-position: top;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 3px 3px 0px 0px;
   }
 }
 .flat-title {
+  height: calc(100% - 15vw);
+  display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: calc(100% - 15vw);
-  font-weight: bold;
 }
 
 @media (max-width: 1080px) {

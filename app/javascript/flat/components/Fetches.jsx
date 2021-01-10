@@ -11,8 +11,7 @@ export const fetchItem = async (setFlat, id) => {
   setFlat(flat);
 }
 
-export const fetchDelete = async (selectedFlat, flats) => {
-  const flat = flats.find(flat => flat === selectedFlat) || null;
+export const fetchDelete = async (flat) => {
   const DELETE_URL = `/api/v1/flats/${flat.id}`;
   await fetch(DELETE_URL, options('DELETE', flat));
 }

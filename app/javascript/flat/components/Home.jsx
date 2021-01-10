@@ -76,8 +76,9 @@ const Home = () => {
             type="button" 
             className={"button-delete" + buttonDisabled}
             onClick={() => {
-              fetchDelete(selectedFlat, flats)
-              setFlats(flats.filter(flat => flat !== selectedFlat));
+              const flat = flats.find(flat => flat === selectedFlat) || null;
+              fetchDelete(flat);
+              setDisplayArray(flats.filter(flat => flat !== selectedFlat));
             }}
             >DELETE
           </button>
@@ -97,7 +98,7 @@ const Home = () => {
                 key={flat.id}
                 id={flat.id}
                 onSelect={() => handleSelect(flat.id)}
-                title={`${flat.price} EUR - ${capitalize(flat.name)} ${flat.id}`}
+                title={capitalize(flat.name)}
                 selected={flat === selectedFlat}
                 imgUrl={flat.imageUrl || flat.image_url} />                
             );
