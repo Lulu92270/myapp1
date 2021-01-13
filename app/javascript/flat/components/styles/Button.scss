@@ -1,0 +1,27 @@
+.buttons {
+  display: flex;
+  width: 75%;
+  // justify-content: flex-end;
+  button {
+    width: 40%;
+    height: 3vw;
+    border-radius: 5px;
+    border: 0;
+    color: #fff;
+    margin: 5px;
+    cursor: pointer;
+    outline: none;
+    &.disabled {
+      opacity: 0.65;
+    }
+  }
+  .button-update {
+    background-color: #a6c;
+  }
+  .button-delete {
+    background-color: #ff3547;
+  }
+  .button-create {
+    background-color: #28a745;
+  }
+}

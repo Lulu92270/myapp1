@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+:root {
+  font-family: 'Roboto', sans-serif;
+  font-size: 27px;
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+.content {
+  display: flex;
+}
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  .search {
+    margin-left: 15px;
+    width: 25%;
+  }
+}
+.flats {
+  width: 60%;
+  margin: 0 0 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.map {
+  width: 40%;
+  height: 100vh;
+  top: 0;
+  position: sticky;
+  box-sizing: content-box;
+  margin: 15px 5px 25px 15px;
+}
+.my-marker {
+  cursor: pointer;
+}
+
+ 
