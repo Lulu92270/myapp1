@@ -39,4 +39,8 @@ const options = (crud, object) => {
     credentials: "same-origin",
     body: JSON.stringify(object)
   });
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d9ff57b097b60d5ca666164c085895bca1fd00a3
