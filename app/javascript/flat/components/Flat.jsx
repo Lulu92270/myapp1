@@ -54,9 +54,9 @@ const Flat = ({imgUrl, title, onSelect, id, selected, flat}) => {
     <animated.div 
       className={'flat' + classes}
       style={props}
-      onMouseEnter={() => { set(updateHover(true)), set1(updateHover1(true)), setIsShown(true)}}
+      onMouseEnter={() => { onSelect(id), set(updateHover(true)), set1(updateHover1(true)), setIsShown(true)}}
       onMouseLeave={() => { set(updateHover(false)), set1(updateHover1(false)), setIsShown(false)}}
-      onClick={() => onSelect(id)}
+      // onClick={() => onSelect(id)}
       ref={ref}
     >
       <img src={imgUrl} alt="urlImage"/>

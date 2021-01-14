@@ -32,6 +32,7 @@ const Home = () => {
     setButtonDisabled("");
     setSelectedFlat(flat);
     setCenter([flat.lng, flat.lat]);
+    console.log('ok');
   }
 
   useEffect(() => {
