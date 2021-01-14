@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './styles/Flat.scss';
-import './styles/Button.scss';
 
 import { useMeasure } from 'react-use';
 import { useSpring, animated } from 'react-spring';
@@ -60,21 +59,21 @@ const Flat = ({imgUrl, title, onSelect, id, selected, flat}) => {
       onClick={() => onSelect(id)}
       ref={ref}
     >
-      <img src={imgUrl} alt="URL Image"/>
+      <img src={imgUrl} alt="urlImage"/>
       <animated.div className="flat-description" style={props1} >
-        <div className="flat-title">
+        <div className="flat-title" onClick={() => history.push(showPath)}>
           {second}
         </div>
         <div className="buttons">
           <button 
             type="button"
-            className="button-update"
+            className="button"
             onClick={() => history.push(`/flats/update/${id}`)}
             >UPDATE
           </button>
           <button 
             type="button" 
-            className="button-delete"
+            className="button"
             onClick={() => {
               fetchDelete(flat);
               // setDisplayArray(flats.filter(flat => flat !== selectedFlat));

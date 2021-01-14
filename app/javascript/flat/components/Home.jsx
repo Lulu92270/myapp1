@@ -10,7 +10,7 @@ import { fetchItems, fetchDelete } from './Fetches';
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
 
-import './styles/Button.scss';
+// import './styles/Button.scss';
 import './styles/Home.scss';
 
 const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
