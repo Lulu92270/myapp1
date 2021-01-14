@@ -3,13 +3,19 @@
   box-shadow: 0 0 10px 0 rgba(0,0,0,.2);
   border: 1px solid grey;
   margin: 15px;
-  // cursor: pointer;
+  cursor: pointer;
   height: 20vw;
   position: relative;
-  background-size: cover;
   border-radius: 0.25rem;
   &.selected {
     border: 1px solid rgba(255, 166, 43, 1);
+  }
+  img {
+    position: absolute;
+    background-size: cover;
+    border-radius: 0.25rem;
+    width: 100%;
+    height: 100%;
   }
 }
 .flat-description {
