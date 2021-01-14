@@ -5,9 +5,7 @@ import './styles/Flat.scss';
 import { useMeasure } from 'react-use';
 import { useSpring, animated } from 'react-spring';
 
-import { fetchDelete } from './Fetches';
-
-const Flat = ({imgUrl, title, onSelect, id, selected, flat}) => {
+const Flat = ({imgUrl, title, onHover, id, onDelete}) => {
   useEffect(() => {
     const interval = setInterval(() => {
       boolean = !boolean;
@@ -46,17 +44,15 @@ const Flat = ({imgUrl, title, onSelect, id, selected, flat}) => {
   let boolean = true;
   const [second, setSecond] = useState(title);
   const [isShown, setIsShown] = useState(false);
-  const classes = selected ? ' selected' : '';
   const showPath = "/flats/" + id;
   const history = useHistory();
 
   return (
     <animated.div 
-      className={'flat' + classes}
+      className='flat'
       style={props}
-      onMouseEnter={() => { onSelect(id), set(updateHover(true)), set1(updateHover1(true)), setIsShown(true)}}
+      onMouseEnter={() => { onHover(id), set(updateHover(true)), set1(updateHover1(true)), setIsShown(true)}}
       onMouseLeave={() => { set(updateHover(false)), set1(updateHover1(false)), setIsShown(false)}}
-      // onClick={() => onSelect(id)}
       ref={ref}
     >
       <img src={imgUrl} alt="urlImage"/>
@@ -74,10 +70,7 @@ const Flat = ({imgUrl, title, onSelect, id, selected, flat}) => {
           <button 
             type="button" 
             className="button"
-            onClick={() => {
-              fetchDelete(flat);
-              // setDisplayArray(flats.filter(flat => flat !== selectedFlat));
-            }}
+            onClick={() => {onDelete()}}
             >DELETE
           </button>
         </div>

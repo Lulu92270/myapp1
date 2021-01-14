@@ -32,7 +32,12 @@ const Home = () => {
     setButtonDisabled("");
     setSelectedFlat(flat);
     setCenter([flat.lng, flat.lat]);
-    console.log('ok');
+  }
+
+  const deleteRequest = (flat) => {
+    console.log("ok")
+    fetchDelete(flat);
+    setDisplayArray(flats.filter(eachFlat => eachFlat !== flat));
   }
 
   useEffect(() => {
@@ -56,6 +61,7 @@ const Home = () => {
     displayEl && setDisplayArray((prev) => [...prev, displayEl]);
   }, [displayEl]);
 
+  
   const filteredFlats =  displayArray.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
 
   return flats ? (
@@ -99,11 +105,13 @@ const Home = () => {
               <Flat
                 key={flat.id}
                 id={flat.id}
-                onSelect={() => handleSelect(flat.id)}
+                onHover={() => handleSelect(flat.id)}
                 title={capitalize(flat.name)}
-                selected={flat === selectedFlat}
                 imgUrl={flat.imageUrl || flat.image_url}
-                flat={flat}
+                onDelete={() => {
+                  fetchDelete(flat);
+                  setDisplayArray(flats.filter(eachFlat => eachFlat !== flat));
+                }}
                 />                
             );
           })}
