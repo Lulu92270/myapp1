@@ -23,10 +23,7 @@
     "react-mapbox-gl": "^5.1.1",
     "react-router-dom": "^5.2.0",
     "react-spring": "^8.0.27",
-<<<<<<< HEAD
     "react-use": "^15.3.8",
-=======
->>>>>>> d9ff57b097b60d5ca666164c085895bca1fd00a3
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
