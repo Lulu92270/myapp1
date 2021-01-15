@@ -5,6 +5,8 @@ import './styles/Flat.scss';
 import { useMeasure } from 'react-use';
 import { useSpring, animated } from 'react-spring';
 
+import './styles/Button.scss';
+
 const Flat = ({imgUrl, title, onHover, id, onDelete}) => {
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,25 +58,27 @@ const Flat = ({imgUrl, title, onHover, id, onDelete}) => {
       ref={ref}
     >
       <img src={imgUrl} alt="urlImage"/>
-      <animated.div className="flat-description" style={props1} >
-        <div className="flat-title" onClick={() => history.push(showPath)}>
-          {second}
-        </div>
-        <div className="buttons">
-          <button 
-            type="button"
-            className="button"
-            onClick={() => history.push(`/flats/update/${id}`)}
-            >UPDATE
-          </button>
-          <button 
-            type="button" 
-            className="button"
-            onClick={() => {onDelete()}}
-            >DELETE
-          </button>
-        </div>
-      </animated.div>
+      {isShown && 
+        <animated.div className="flat-description" style={props1} >
+          <div className="flat-title" onClick={() => history.push(showPath)}>
+            {second}
+          </div>
+          <div className="buttons">
+            <button 
+              type="button"
+              className="button"
+              onClick={() => history.push(`/flats/update/${id}`)}
+              >UPDATE
+            </button>
+            <button 
+              type="button" 
+              className="button"
+              onClick={() => {onDelete()}}
+              >DELETE
+            </button>
+          </div>
+        </animated.div>
+      }
     </animated.div>
   );
 }

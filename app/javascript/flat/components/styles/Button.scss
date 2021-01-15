@@ -1,26 +1,22 @@
-.buttons {
-  display: flex;
-  justify-content: center;
-  button {
-    width: 40%;
-    height: 3vw;
-    border-radius: 5px;
-    border: 0;
-    color: #fff;
-    margin: 5px;
-    cursor: pointer;
-    outline: none;
-    &.disabled {
-      opacity: 0.65;
-    }
-  }
-  .button-update {
-    background-color: #a6c;
-  }
-  .button-delete {
-    background-color: #ff3547;
-  }
-  .button-create {
-    background-color: #28a745;
+.button{
+  background-color:rgba(255, 184, 85, 1); /* Green */
+  border: 2px solid white;
+  border-radius: 5%;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,.2);
+  text-shadow: 1px 1px 0px rgb(161, 161, 161);
+  &:hover {
+    color: black;
+    background-color: white;
+    text-shadow: none;
   }
 }
