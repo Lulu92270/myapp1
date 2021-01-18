@@ -36,9 +36,7 @@ const Home = () => {
       }
       setDisplayEl(undefined);
     })();
-    return () => {
-      clearTimeout(delay);
-   }
+    return () => clearTimeout(delay);
   }, [flats]);
 
   useEffect(() => {
