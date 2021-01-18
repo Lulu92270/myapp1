@@ -7,7 +7,8 @@ import { useSpring, animated, useTransition } from 'react-spring';
 
 import './styles/Button.scss';
 
-const Flat = ({imgUrl, title, onHover, id, onDelete}) => {
+const Flat = ({imgUrl, title, onHover, id, onDelete, showModal}) => {
+  
   let boolean = true;
   const [second, setSecond] = useState(title);
   const [isShown, setIsShown] = useState(false);
@@ -64,7 +65,7 @@ const Flat = ({imgUrl, title, onHover, id, onDelete}) => {
               <button 
                 type="button"
                 className="button"
-                onClick={() => history.push(`/flats/update/${id}`)}
+                onClick={() => {showModal()}}
                 >UPDATE
               </button>
               <button 
@@ -76,7 +77,6 @@ const Flat = ({imgUrl, title, onHover, id, onDelete}) => {
             </div>
           </animated.div>
         ))}
-
       </div>
     </animated.div>
   );

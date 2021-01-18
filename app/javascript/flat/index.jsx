@@ -22,7 +22,7 @@ ReactDOM.render(
         <Route path="/" exact component={Home} />
         <Route path="/flats/new" component={FlatCreate} />
         <Route path="/flats/:id" exact component={FlatShow} />
-        <Route path="/flats/update/:id" component={FlatUpdate} />
+        {/* <Route path="/flats/update/:id" component={FlatUpdate} /> */}
       </Switch>
     </Router>
     <Footer />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -9,6 +9,7 @@ import { fetchItems, fetchDelete } from './Fetches';
 import Header from './Header';
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
+import FlatUpdate from './FlatUpdate';
 
 import './styles/Home.scss';
 
@@ -21,6 +22,7 @@ const Home = () => {
   const [center, setCenter] = useState([-9.142685, 38.736946]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [idFlat, setIdFlat] = useState(null);
   const [displayEl, setDisplayEl] = useState();
   const [displayArray, setDisplayArray] = useState([]);
 
@@ -51,6 +53,11 @@ const Home = () => {
   
   const filteredFlats =  displayArray.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
 
+  const modalRef = useRef();
+  const openModal = () => {
+    modalRef.current.openModal()
+  };
+
   return flats ? (
     <div className="home">
       <Header
@@ -66,6 +73,7 @@ const Home = () => {
                 onHover={() => handleHover(flat.id)}
                 title={capitalize(flat.name)}
                 imgUrl={flat.imageUrl || flat.image_url}
+                showModal={() => {setIdFlat(flat.id), openModal}}
                 onDelete={() => {
                   fetchDelete(flat);
                   setDisplayArray(flats.filter(eachFlat => eachFlat !== flat));
@@ -92,6 +100,9 @@ const Home = () => {
           </Map>
         </div>
       </div>
+      { idFlat ?
+        <FlatUpdate id={idFlat} ref={modalRef}/>
+      : null}
     </div>
   ) : (
     <div>Loading...</div>
