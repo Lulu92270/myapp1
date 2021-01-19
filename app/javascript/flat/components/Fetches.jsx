@@ -1,8 +1,8 @@
-export const fetchItems = async (setFlats) => {
+export const fetchItems = async (setArray) => {
   const INDEX_URL = "/api/v1/flats";
   const fetchFlats = await fetch(INDEX_URL)
   const flats = await fetchFlats.json();
-  setFlats(flats);
+  setArray(flats);
 }
 
 export const fetchItem = async (setFlat, id) => {

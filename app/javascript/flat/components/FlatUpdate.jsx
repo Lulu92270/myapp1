@@ -23,16 +23,16 @@ const FlatUpdate = forwardRef((props, ref) => {
     return string.length > maxlimit ? string.substring(0,maxlimit-3) + '...' : string
   }
 
-  const [show, setShow] = useState(true);
-  const open = () => setShow(true);
-  const close = () => setShow(false);
-  
+  const [show, setShow] = useState(false);
+
   useImperativeHandle(ref, () => {
     return {
       openModal: () => open(),
       close: () => close()
     }
   });
+  const open = () => setShow(true);
+  const close = () => setShow(false);
 
   if (show) {
     return ReactDOM.createPortal(      
@@ -63,12 +63,13 @@ const FlatUpdate = forwardRef((props, ref) => {
                 </div>
               </div>
             </form>
+            
           </div>
         </div>
       </div>, document.getElementById("modal-root"))
 
   }
-  return null;
+    return null;
 });
 
 export default FlatUpdate;

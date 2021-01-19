@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import './styles/Flat.scss';
 
 import { useMeasure } from 'react-use';
 import { useSpring, animated, useTransition } from 'react-spring';
+
+import FlatUpdate from './FlatUpdate';
 
 import './styles/Button.scss';
 
@@ -46,6 +48,11 @@ const Flat = ({imgUrl, title, onHover, id, onDelete, showModal}) => {
     leave: { opacity: 0, height: 0 }
   });
 
+  const modalRef = useRef();
+  const openModal = () => {
+    modalRef.current.openModal()
+  };
+
   return (
     <animated.div 
       className='flat'
@@ -65,7 +72,7 @@ const Flat = ({imgUrl, title, onHover, id, onDelete, showModal}) => {
               <button 
                 type="button"
                 className="button"
-                onClick={() => {showModal()}}
+                onClick={openModal}
                 >UPDATE
               </button>
               <button 
@@ -78,6 +85,7 @@ const Flat = ({imgUrl, title, onHover, id, onDelete, showModal}) => {
           </animated.div>
         ))}
       </div>
+      <FlatUpdate id={id} ref={modalRef}/>
     </animated.div>
   );
 }

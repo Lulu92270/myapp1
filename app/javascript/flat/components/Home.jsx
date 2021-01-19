@@ -17,33 +17,28 @@ const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
 
 const Home = () => {
 
-  const [flats, setFlats] = useState([]);
-  const [selectedFlat, setSelectedFlat] = useState(null);
+  const [array, setArray] = useState([]);
+  
   const [center, setCenter] = useState([-9.142685, 38.736946]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [flats, setFlats] = useState([]);
+  const [selectedFlat, setSelectedFlat] = useState(null);
   const [idFlat, setIdFlat] = useState(null);
-  const [displayEl, setDisplayEl] = useState();
-  const [displayArray, setDisplayArray] = useState([]);
 
   useEffect(() => {
-    fetchItems(setFlats)
+    fetchItems(setArray)
   }, []);
 
   useEffect(() => {
     (async () => {
-      for (let flat of flats) {
+      for (let flat of array) {
         await delay(500);
-        setDisplayEl(flat);
+        setFlats((prev) => [...prev, flat]);
       }
-      setDisplayEl(undefined);
     })();
     return () => clearTimeout(delay);
-  }, [flats]);
-
-  useEffect(() => {
-    displayEl && setDisplayArray((prev) => [...prev, displayEl]);
-  }, [displayEl]);
+  }, [array]);
 
   const handleHover = (flatId) => {
     const flat = flats.find(flat => flat.id === flatId);
@@ -51,14 +46,14 @@ const Home = () => {
     setCenter([flat.lng, flat.lat]);
   }
   
-  const filteredFlats =  displayArray.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
+  const filteredFlats = flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
 
-  const modalRef = useRef();
-  const openModal = () => {
-    modalRef.current.openModal()
-  };
+  // const modalRef = useRef();
+  // const openModal = () => {
+  //   modalRef.current.openModal()
+  // };
 
-  return flats ? (
+  return array ? (
     <div className="home">
       <Header
         triggerSearch={(string) => setSearchTerm(string)}
@@ -73,10 +68,11 @@ const Home = () => {
                 onHover={() => handleHover(flat.id)}
                 title={capitalize(flat.name)}
                 imgUrl={flat.imageUrl || flat.image_url}
-                showModal={() => {setIdFlat(flat.id), openModal}}
+                // showModal={() => {setIdFlat(flat.id), openModal}}
+                // showModal={() => openModal}
                 onDelete={() => {
                   fetchDelete(flat);
-                  setDisplayArray(flats.filter(eachFlat => eachFlat !== flat));
+                  setFlats(flats.filter(eachFlat => eachFlat !== flat));
                 }}
               />                
             );
@@ -100,9 +96,7 @@ const Home = () => {
           </Map>
         </div>
       </div>
-      { idFlat ?
-        <FlatUpdate id={idFlat} ref={modalRef}/>
-      : null}
+
     </div>
   ) : (
     <div>Loading...</div>
