@@ -11,7 +11,7 @@ const FlatUpdate = forwardRef((props, ref) => {
   useEffect(() => {
     fetchItem(setFlat, props.id);
   }, []);
-  // https://www.youtube.com/watch?v=SmMZqh1xdB4&ab_channel=LetsCode
+
   const [flat, setFlat] = useState({});
 
   const { register, handleSubmit, errors } = useForm();

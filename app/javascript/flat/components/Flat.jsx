@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { useHistory } from 'react-router-dom';
 import './styles/Flat.scss';
 
@@ -8,8 +8,8 @@ import { useSpring, animated, useTransition } from 'react-spring';
 import FlatUpdate from './FlatUpdate';
 
 import './styles/Button.scss';
-
-const Flat = ({imgUrl, title, onHover, id, onDelete, showModal}) => {
+// {imgUrl, title, onHover, id, onDelete}
+const Flat = ({imgUrl, title, onHover, id, onDelete, forwardedRef}) => {
   
   let boolean = true;
   const [second, setSecond] = useState(title);
@@ -25,9 +25,9 @@ const Flat = ({imgUrl, title, onHover, id, onDelete, showModal}) => {
     return () => clearInterval(interval);
   }, []);
 
-  const [ref, { height }] = useMeasure();
+  const [refMeasure, { height }] = useMeasure();
 
-  const [props, set] = useSpring(() => ({
+  const [propsAnimation, set] = useSpring(() => ({
     transform: 'scale(1)',
     boxShadow: '0px 5px 15px 0px rgba(0, 0, 0, 0.30)',
     from: { 
@@ -48,6 +48,18 @@ const Flat = ({imgUrl, title, onHover, id, onDelete, showModal}) => {
     leave: { opacity: 0, height: 0 }
   });
 
+  // useImperativeHandle(ref, () => {
+  //   return {
+  //     hoverFlat: () => {set(updateHover(true)), setIsShown(true), console.log(ref)}
+  //   }
+  // });
+
+  const handleMouseEnter = () => {
+    onHover(id);
+    set(updateHover(true));
+    setIsShown(true);
+  }
+
   const modalRef = useRef();
   const openModal = () => {
     modalRef.current.openModal()
@@ -56,10 +68,11 @@ const Flat = ({imgUrl, title, onHover, id, onDelete, showModal}) => {
   return (
     <animated.div 
       className='flat'
-      style={props}
-      onMouseEnter={() => { onHover(id), set(updateHover(true)), setIsShown(true)}}
-      onMouseLeave={() => { set(updateHover(false)), setIsShown(false)}}
-      ref={ref}
+      style={propsAnimation}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={() => {set(updateHover(false)), setIsShown(false)}}
+      ref={forwardedRef}
+      // ref={refMeasure}
     >
       <img src={imgUrl} alt="urlImage"/>
       <div>

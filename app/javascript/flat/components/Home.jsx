@@ -9,7 +9,6 @@ import { fetchItems, fetchDelete } from './Fetches';
 import Header from './Header';
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
-import FlatUpdate from './FlatUpdate';
 
 import './styles/Home.scss';
 
@@ -24,7 +23,6 @@ const Home = () => {
 
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
-  const [idFlat, setIdFlat] = useState(null);
 
   useEffect(() => {
     fetchItems(setArray)
@@ -33,25 +31,29 @@ const Home = () => {
   useEffect(() => {
     (async () => {
       for (let flat of array) {
-        await delay(500);
+        await delay(300);
         setFlats((prev) => [...prev, flat]);
       }
     })();
     return () => clearTimeout(delay);
   }, [array]);
 
-  const handleHover = (flatId) => {
+  const handleHoverFlat = (flatId) => {
     const flat = flats.find(flat => flat.id === flatId);
     setSelectedFlat(flat);
     setCenter([flat.lng, flat.lat]);
   }
   
-  const filteredFlats = flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
+  let singleFlatRef = useRef(null);
+  const hoverFlat = (flatId) => {
+    const flat = flats.find(flat => flat.id === flatId);
+    setSelectedFlat(flat);
+    setCenter([flat.lng, flat.lat]);
+    console.log(singleFlatRef.current)
+    // singleFlatRef.current.hoverFlat()
+  };
 
-  // const modalRef = useRef();
-  // const openModal = () => {
-  //   modalRef.current.openModal()
-  // };
+  const filteredFlats = flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
 
   return array ? (
     <div className="home">
@@ -65,11 +67,10 @@ const Home = () => {
               <Flat
                 key={flat.id}
                 id={flat.id}
-                onHover={() => handleHover(flat.id)}
+                onHover={handleHoverFlat}
                 title={capitalize(flat.name)}
                 imgUrl={flat.imageUrl || flat.image_url}
-                // showModal={() => {setIdFlat(flat.id), openModal}}
-                // showModal={() => openModal}
+                forwardedRef={singleFlatRef}
                 onDelete={() => {
                   fetchDelete(flat);
                   setFlats(flats.filter(eachFlat => eachFlat !== flat));
@@ -80,7 +81,7 @@ const Home = () => {
         </div>
         <div className="map">
           <Map
-            zoom={[15]}
+            // zoom={[15]}
             center={center}
             containerStyle={{ height: '100vh', width: '100%' }}
             style="mapbox://styles/mapbox/streets-v11"
@@ -88,7 +89,7 @@ const Home = () => {
             className="rounded">
               {filteredFlats.map((flat) => {
                 return(
-                  <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => handleSelect(flat.id)}>
+                  <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => hoverFlat(flat.id)}>
                     <FlatMarker price={flat.price} selected={flat === selectedFlat} />
                   </Marker>
                 );

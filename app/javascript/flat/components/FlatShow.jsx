@@ -22,7 +22,7 @@ const FlatShow = ({ match }) => {
   }, []);
 
   const [flat, setFlat] = useState({});
-  const location = flat != 'undefined' ? [-9.142685, 38.736946] : [flat.lng, flat.lat];
+  const location = Object.keys(flat).length === 0 ? [-9.142685, 38.736946] : [flat.lng, flat.lat];
   const history = useHistory();
 
   return (
@@ -43,7 +43,8 @@ const FlatShow = ({ match }) => {
           center={location}
           containerStyle={{ height: '100vh', width: '100%' }}
           style="mapbox://styles/mapbox/streets-v11"
-          animationOptions={{ duration: 10000 }}>
+          animationOptions={{ duration: 10000 }}
+          className="rounded">
           <Marker key={flat.id} coordinates={location} anchor="bottom">
             <FlatMarker price={flat.price} selected={true} />
           </Marker>          
