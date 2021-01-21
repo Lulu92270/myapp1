@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, createRef } from 'react';
 import ReactMapboxGl, { Marker } from 'react-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { capitalize } from './functions/Capitalize';
 import { delay } from './functions/Delay';
+import { getIndex } from './functions/GetIndex';
 
 import { fetchItems, fetchDelete } from './Fetches';
 import Header from './Header';
@@ -21,8 +22,13 @@ const Home = () => {
   const [center, setCenter] = useState([-9.142685, 38.736946]);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const singleFlatRef = useRef({});
+  const prevFlat = useRef(-1);
+  const [index, setIndex]= useState(-1);
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
+
+  const filteredFlats = flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
 
   useEffect(() => {
     fetchItems(setArray)
@@ -38,22 +44,22 @@ const Home = () => {
     return () => clearTimeout(delay);
   }, [array]);
 
+  useEffect(() => {
+    prevFlat.current = index
+  },[index])
+
   const handleHoverFlat = (flatId) => {
     const flat = flats.find(flat => flat.id === flatId);
     setSelectedFlat(flat);
     setCenter([flat.lng, flat.lat]);
   }
   
-  let singleFlatRef = useRef(null);
-  const hoverFlat = (flatId) => {
-    const flat = flats.find(flat => flat.id === flatId);
-    setSelectedFlat(flat);
-    setCenter([flat.lng, flat.lat]);
-    console.log(singleFlatRef.current)
-    // singleFlatRef.current.hoverFlat()
+  const callHoverFlat = (flatId) => {
+    const newIndex = getIndex(flatId, flats, 'id')
+    if (prevFlat.current != -1) { singleFlatRef.current[prevFlat.current].leaveFlat() }
+    singleFlatRef.current[newIndex].hoverFlat()
+    setIndex(getIndex(flatId, flats, 'id'))
   };
-
-  const filteredFlats = flats.filter(flat => flat.name.match(new RegExp(searchTerm, 'i')));
 
   return array ? (
     <div className="home">
@@ -62,7 +68,7 @@ const Home = () => {
       />
       <div className="content">
         <div className="flats">
-          {filteredFlats.map((flat) => {
+          {filteredFlats.map((flat, index) => {
             return (
               <Flat
                 key={flat.id}
@@ -70,7 +76,7 @@ const Home = () => {
                 onHover={handleHoverFlat}
                 title={capitalize(flat.name)}
                 imgUrl={flat.imageUrl || flat.image_url}
-                forwardedRef={singleFlatRef}
+                ref={r => (singleFlatRef.current[index] = r)}
                 onDelete={() => {
                   fetchDelete(flat);
                   setFlats(flats.filter(eachFlat => eachFlat !== flat));
@@ -81,7 +87,7 @@ const Home = () => {
         </div>
         <div className="map">
           <Map
-            // zoom={[15]}
+            zoom={[3]}
             center={center}
             containerStyle={{ height: '100vh', width: '100%' }}
             style="mapbox://styles/mapbox/streets-v11"
@@ -89,7 +95,7 @@ const Home = () => {
             className="rounded">
               {filteredFlats.map((flat) => {
                 return(
-                  <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => hoverFlat(flat.id)}>
+                  <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => callHoverFlat(flat.id)}>
                     <FlatMarker price={flat.price} selected={flat === selectedFlat} />
                   </Marker>
                 );

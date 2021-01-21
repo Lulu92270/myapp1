@@ -8,19 +8,24 @@ import { useSpring, animated, useTransition } from 'react-spring';
 import FlatUpdate from './FlatUpdate';
 
 import './styles/Button.scss';
-// {imgUrl, title, onHover, id, onDelete}
-const Flat = ({imgUrl, title, onHover, id, onDelete, forwardedRef}) => {
+
+const Flat = forwardRef((cProps, ref) => {
   
   let boolean = true;
-  const [second, setSecond] = useState(title);
+  const [second, setSecond] = useState(cProps.title);
   const [isShown, setIsShown] = useState(false);
-  const showPath = "/flats/" + id;
+  const showPath = "/flats/" + cProps.id;
   const history = useHistory();
+
+  const modalRef = useRef();
+  const openModal = () => {
+    modalRef.current.openModal()
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
       boolean = !boolean;
-      setSecond(boolean ? 'Click here!' : title);
+      setSecond(boolean ? 'Click here!' : cProps.title);
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -48,33 +53,33 @@ const Flat = ({imgUrl, title, onHover, id, onDelete, forwardedRef}) => {
     leave: { opacity: 0, height: 0 }
   });
 
-  // useImperativeHandle(ref, () => {
-  //   return {
-  //     hoverFlat: () => {set(updateHover(true)), setIsShown(true), console.log(ref)}
-  //   }
-  // });
+  useImperativeHandle(ref, () => {
+    return {
+      hoverFlat: () => handleMouseEnter(),
+      leaveFlat: () => handleMouseLeave()
+    }
+  });
 
   const handleMouseEnter = () => {
-    onHover(id);
+    cProps.onHover(cProps.id);
     set(updateHover(true));
     setIsShown(true);
   }
 
-  const modalRef = useRef();
-  const openModal = () => {
-    modalRef.current.openModal()
-  };
+  const handleMouseLeave = () => {
+    set(updateHover(false));
+    setIsShown(false);
+  }
 
   return (
     <animated.div 
       className='flat'
       style={propsAnimation}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={() => {set(updateHover(false)), setIsShown(false)}}
-      ref={forwardedRef}
-      // ref={refMeasure}
+      onMouseLeave={handleMouseLeave}
+      ref={ref, refMeasure}
     >
-      <img src={imgUrl} alt="urlImage"/>
+      <img src={cProps.imgUrl} alt="urlImage"/>
       <div>
         {transition.map(({ item, key, props }) => (
           item && <animated.div className="flat-description" style={props} key={key}>
@@ -91,16 +96,16 @@ const Flat = ({imgUrl, title, onHover, id, onDelete, forwardedRef}) => {
               <button 
                 type="button" 
                 className="button"
-                onClick={() => {onDelete()}}
+                onClick={cProps.onDelete}
                 >DELETE
               </button>
             </div>
           </animated.div>
         ))}
       </div>
-      <FlatUpdate id={id} ref={modalRef}/>
+      <FlatUpdate id={cProps.id} ref={modalRef}/>
     </animated.div>
   );
-}
+})
 
 export default Flat;
