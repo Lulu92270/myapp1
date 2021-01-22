@@ -17,6 +17,9 @@ const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
 
 const Home = () => {
 
+  const [width, setWidth] = React.useState(window.innerWidth);
+  const breakPoint = 1080;
+
   const [array, setArray] = useState([]);
   
   const [center, setCenter] = useState([-9.142685, 38.736946]);
@@ -47,6 +50,13 @@ const Home = () => {
   useEffect(() => {
     prevFlat.current = index
   },[index])
+
+  useEffect(() => {
+    const handleWindowResize = () => { setWidth(window.innerWidth), console.log(window.innerWidth) };
+    window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
+   },[]);
+ 
 
   const handleHoverFlat = (flatId) => {
     const flat = flats.find(flat => flat.id === flatId);
@@ -85,25 +95,26 @@ const Home = () => {
             );
           })}
         </div>
-        <div className="map">
-          <Map
-            zoom={[3]}
-            center={center}
-            containerStyle={{ height: '100vh', width: '100%' }}
-            style="mapbox://styles/mapbox/streets-v11"
-            animationOptions={{ duration: 4000 }}
-            className="rounded">
-              {filteredFlats.map((flat) => {
-                return(
-                  <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => callHoverFlat(flat.id)}>
-                    <FlatMarker price={flat.price} selected={flat === selectedFlat} />
-                  </Marker>
-                );
-              })}
-          </Map>
-        </div>
+        {width > breakPoint && 
+          <div className="map">
+            <Map
+              zoom={[3]}
+              center={center}
+              containerStyle={{ height: '100vh', width: '100%' }}
+              style="mapbox://styles/mapbox/streets-v11"
+              animationOptions={{ duration: 4000 }}
+              className="rounded">
+                {filteredFlats.map((flat) => {
+                  return(
+                    <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => callHoverFlat(flat.id)}>
+                      <FlatMarker price={flat.price} selected={flat === selectedFlat} />
+                    </Marker>
+                  );
+                })}
+            </Map>
+          </div>
+        }
       </div>
-
     </div>
   ) : (
     <div>Loading...</div>
