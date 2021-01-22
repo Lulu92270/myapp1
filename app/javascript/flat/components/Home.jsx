@@ -62,11 +62,12 @@ const Home = () => {
     const flat = flats.find(flat => flat.id === flatId);
     setSelectedFlat(flat);
     setCenter([flat.lng, flat.lat]);
+    if (prevFlat.current != -1) {singleFlatRef.current[prevFlat.current].leaveFlat()}
   }
   
   const callHoverFlat = (flatId) => {
     const newIndex = getIndex(flatId, flats, 'id')
-    if (prevFlat.current != -1) { singleFlatRef.current[prevFlat.current].leaveFlat() }
+    if (prevFlat.current != -1) {singleFlatRef.current[prevFlat.current].leaveFlat()}
     singleFlatRef.current[newIndex].hoverFlat()
     setIndex(getIndex(flatId, flats, 'id'))
   };
