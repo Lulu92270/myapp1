@@ -18,6 +18,7 @@ const FlatUpdate = forwardRef((props, ref) => {
   const onSubmit = (data) => {
     fetchPatch(data, props.id);
     setFlat(data);
+    props.submit(props.id, data);
     close();
   }
 

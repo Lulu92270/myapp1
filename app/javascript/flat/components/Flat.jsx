@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import './styles/Flat.scss';
 
@@ -103,7 +103,7 @@ const Flat = forwardRef((cProps, ref) => {
           </animated.div>
         ))}
       </div>
-      <FlatUpdate id={cProps.id} ref={modalRef}/>
+      <FlatUpdate id={cProps.id} ref={modalRef} submit={(id, data) => cProps.onUpdate(id, data)}/>
     </animated.div>
   );
 })

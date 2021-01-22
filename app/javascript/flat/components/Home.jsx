@@ -6,7 +6,7 @@ import { capitalize } from './functions/Capitalize';
 import { delay } from './functions/Delay';
 import { getIndex } from './functions/GetIndex';
 
-import { fetchItems, fetchDelete } from './Fetches';
+import { fetchItems, fetchDelete, fetchPatch } from './Fetches';
 import Header from './Header';
 import Flat from './Flat';
 import FlatMarker from './FlatMarker';
@@ -25,8 +25,9 @@ const Home = () => {
   const [center, setCenter] = useState([-9.142685, 38.736946]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const singleFlatRef = useRef({});
+  const FlatsRef = useRef({});
   const prevFlat = useRef(-1);
+
   const [index, setIndex]= useState(-1);
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
@@ -52,23 +53,22 @@ const Home = () => {
   },[index])
 
   useEffect(() => {
-    const handleWindowResize = () => { setWidth(window.innerWidth), console.log(window.innerWidth) };
+    const handleWindowResize = () => setWidth(window.innerWidth)
     window.addEventListener("resize", handleWindowResize);
     return () => window.removeEventListener("resize", handleWindowResize);
    },[]);
  
-
   const handleHoverFlat = (flatId) => {
     const flat = flats.find(flat => flat.id === flatId);
     setSelectedFlat(flat);
     setCenter([flat.lng, flat.lat]);
-    if (prevFlat.current != -1) {singleFlatRef.current[prevFlat.current].leaveFlat()}
+    if (prevFlat.current != -1) {FlatsRef.current[prevFlat.current].leaveFlat()}
   }
   
   const callHoverFlat = (flatId) => {
     const newIndex = getIndex(flatId, flats, 'id')
-    if (prevFlat.current != -1) {singleFlatRef.current[prevFlat.current].leaveFlat()}
-    singleFlatRef.current[newIndex].hoverFlat()
+    if (prevFlat.current != -1) {FlatsRef.current[prevFlat.current].leaveFlat()}
+    FlatsRef.current[newIndex].hoverFlat()
     setIndex(getIndex(flatId, flats, 'id'))
   };
 
@@ -87,10 +87,16 @@ const Home = () => {
                 onHover={handleHoverFlat}
                 title={capitalize(flat.name)}
                 imgUrl={flat.imageUrl || flat.image_url}
-                ref={r => (singleFlatRef.current[index] = r)}
+                ref={r => (FlatsRef.current[index] = r)}
                 onDelete={() => {
                   fetchDelete(flat);
                   setFlats(flats.filter(eachFlat => eachFlat !== flat));
+                }}
+                onUpdate={(flatId, data) => {    
+                  const index = getIndex(flatId, flats, 'id')
+                  const newFlats = [...flats];
+                  newFlats[index].price = data.price;
+                  setFlats(newFlats);
                 }}
               />                
             );
