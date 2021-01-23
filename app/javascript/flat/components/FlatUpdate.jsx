@@ -62,7 +62,7 @@ const FlatUpdate = forwardRef((props, ref) => {
               
               <div className="click-area">
                 <Button variant="success" className="ml-0 mt-2 mb-2 rounded" onClick={close}>Back</Button>
-                <Button type="submit" variant="success" className="ml-0 mt-2 mb-2 rounded">Update</Button>
+                <Button type="submit" variant="success" className="ml-0 mt-2 mb-2 mr-0 rounded">Update</Button>
               </div>
             </div>
           </form>

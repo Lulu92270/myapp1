@@ -37,7 +37,7 @@ const FlatCreate = () => {
 
           <div className="click-area">
             <button className="btn btn-success ml-0 mt-2 mb-2 rounded" onClick={() => history.push("/")}>Back</button>
-            <input type="submit" value="Submit" className="btn btn-success"/>
+            <input type="submit" value="Submit" className="btn btn-success ml-0 mt-2 mb-2 rounded"/>
           </div>
         </div>
       </form>
