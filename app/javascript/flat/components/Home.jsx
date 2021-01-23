@@ -17,17 +17,15 @@ const Map = ReactMapboxGl({ accessToken: process.env.REACT_APP_MAPBOX_TOKEN });
 
 const Home = () => {
 
-  const [width, setWidth] = React.useState(window.innerWidth);
-  const breakPoint = 1080;
-
-  const [array, setArray] = useState([]);
-  
-  const [center, setCenter] = useState([-9.142685, 38.736946]);
-  const [searchTerm, setSearchTerm] = useState("");
-
   const FlatsRef = useRef({});
   const prevFlat = useRef(-1);
 
+  const [width, setWidth] = useState(window.innerWidth);
+  const breakPoint = 1080;
+
+  const [array, setArray] = useState([]);
+  const [center, setCenter] = useState([-9.142685, 38.736946]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [index, setIndex]= useState(-1);
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
@@ -65,7 +63,7 @@ const Home = () => {
     if (prevFlat.current != -1) {FlatsRef.current[prevFlat.current].leaveFlat()}
   }
   
-  const callHoverFlat = (flatId) => {
+  const handleMarkerClick = (flatId) => {
     const newIndex = getIndex(flatId, flats, 'id')
     if (prevFlat.current != -1) {FlatsRef.current[prevFlat.current].leaveFlat()}
     FlatsRef.current[newIndex].hoverFlat()
@@ -95,7 +93,8 @@ const Home = () => {
                 onUpdate={(flatId, data) => {    
                   const index = getIndex(flatId, flats, 'id')
                   const newFlats = [...flats];
-                  newFlats[index].price = data.price;
+                  data['id'] = flatId;
+                  newFlats[index] = data;
                   setFlats(newFlats);
                 }}
               />                
@@ -113,7 +112,7 @@ const Home = () => {
               className="rounded">
                 {filteredFlats.map((flat) => {
                   return(
-                    <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => callHoverFlat(flat.id)}>
+                    <Marker key={flat.id} className="my-marker" coordinates={[flat.lng, flat.lat]} anchor="bottom" onClick={() => handleMarkerClick(flat.id)}>
                       <FlatMarker price={flat.price} selected={flat === selectedFlat} />
                     </Marker>
                   );
