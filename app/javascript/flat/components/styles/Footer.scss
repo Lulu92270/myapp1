@@ -1,12 +1,14 @@
 .main-footer{
   color: white;
-  font-size: 2vw;
   background-color: rgba(255, 184, 85, 1);
   padding-top: 2em;
   width: 100%;
   text-shadow: 1px 1px 0px rgb(161, 161, 161);
   grid-row-start: 2;
   grid-row-end: 3;
+  position: absolute;
+  bottom: 0;
+  height: 17rem;
   h1 {
     font-size: 2.5vw;
     font-weight: bold;
