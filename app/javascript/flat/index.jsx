@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import Home from './components/Home';
 import FlatCreate from './components/FlatCreate';
 import FlatShow from './components/FlatShow';
-import FlatUpdate from './components/FlatUpdate';
 import Footer from './components/Footer';
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -22,7 +21,6 @@ ReactDOM.render(
         <Route path="/" exact component={Home} />
         <Route path="/flats/new" component={FlatCreate} />
         <Route path="/flats/:id" exact component={FlatShow} />
-        {/* <Route path="/flats/update/:id" component={FlatUpdate} /> */}
       </Switch>
     </Router>
     <Footer />
