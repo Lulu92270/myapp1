@@ -11,8 +11,9 @@ const FlatCreate = () => {
   const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
   const onSubmit = (data) => {
-    fetchPost(data);
-    history.push("/");
+    console.log(data)
+    // fetchPost(data);
+    // history.push("/");
   }
 
   return (
