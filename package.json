@@ -24,7 +24,8 @@
     "react-router-dom": "^5.2.0",
     "react-spring": "^8.0.27",
     "react-use": "^15.3.8",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "yarn": "^1.22.10"
   },
   "version": "0.1.0",
   "devDependencies": {

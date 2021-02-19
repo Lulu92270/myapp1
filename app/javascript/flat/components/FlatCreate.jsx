@@ -12,8 +12,8 @@ const FlatCreate = () => {
   const history = useHistory();
   const onSubmit = (data) => {
     console.log(data)
-    // fetchPost(data);
-    // history.push("/");
+    fetchPost(data);
+    history.push("/");
   }
 
   return (
